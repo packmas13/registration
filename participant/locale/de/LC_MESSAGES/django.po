@@ -1,0 +1,47 @@
+# Translation of the participant app
+# Copyright (C) 2020 Simon Ellmann
+# This file is distributed under the same license as the registration package.
+# Simon Ellmann <simon.ellmann@tum.de>, 2020.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-01-26 00:51+0100\n"
+"PO-Revision-Date: 2020-01-26 00:15+0100\n"
+"Last-Translator: Simon Ellmann <simon.ellmann@tum.de>\n"
+"Language-Team: NOREPLY <noreply@example.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: models/participant.py:17 models/troop.py:18
+msgid "troop"
+msgstr "Gruppe"
+
+#: models/participant.py:22
+msgid "firstname"
+msgstr "Vorname"
+
+#: models/participant.py:27
+msgid "participant"
+msgstr "Teilnehmer"
+
+#: models/participant.py:28
+msgid "participants"
+msgstr "Teilnehmer"
+
+#: models/troop.py:13
+msgid "name"
+msgstr "Name"
+
+#: models/troop.py:19
+msgid "troops"
+msgstr "Gruppen"
+
+#: templates/participant/index.html:7
+msgid "Hello"
+msgstr "Hallo"
