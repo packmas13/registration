@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'participant.apps.ParticipantConfig',
+    'payment.apps.PaymentConfig',
 ]
 
 MIDDLEWARE = [
