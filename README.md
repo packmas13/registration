@@ -1,20 +1,31 @@
 # Setup
 
-1. Make sure you have Python 3.7+ installed
+1. Make sure you have Python 3.7+ and [pipenv](https://github.com/pypa/pipenv) installed
 2. `git clone https://github.com/packmas13/registration.git`
 3. `cd registration`
-4. `python3 -m venv venv`
-5. `source venv/bin/activate`
-6. `pip3 install -r requirements.txt`
-7. `python3 manage.py migrate`
-8. `python3 manage.py compilemessages`
 
-To create a backend user run `python3 manage.py createsuperuser`.
+# Run local server
 
-Finally, start the Django server with `python3 manage.py runserver` and head to [http://localhost:8000/](http://localhost:8000/).
+```
+make dev
+```
+
+The first time, it will prompt you to create a backend user (you can create other users later with `make superuser`).
+
+Finally, the Django server should be running and accessible under [http://localhost:8000/](http://localhost:8000/).
+
+# Update local server
+
+1. `git pull`
+2. `make install` in case of new dependencies
+3. `make migrate` in case of new migrations
+4. `make compilemessages` in case of new translated messages
+5. `make dev`
 
 # Hints
 
-After changing models run `python3 manage.py makemigrations`.
+After changing models run `make migrations` to update the migrations files.
 
-After changing translations run `django-admin makemessages` in the corresponding submodule.
+After changing translations run `make messages` in the corresponding submodule.
+
+To add a dependency, run `pipenv install [dependency]` (add the `--dev` flag for dev-only dependencies).
