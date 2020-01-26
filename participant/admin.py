@@ -8,8 +8,8 @@ class ParticipantInline(admin.TabularInline):
 
 
 class TroopAdmin(admin.ModelAdmin):
-    inlines = [ParticipantInline,]
+    inlines = [ParticipantInline, ]
+
 
 admin.site.register(Participant)
 admin.site.register(Troop, TroopAdmin)
-
