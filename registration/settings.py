@@ -135,3 +135,25 @@ LANGUAGES = [
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+
+if 'DJANGO_PRODUCTION' in os.environ:
+    ALLOWED_HOSTS = ['']
+    DEBUG = False
+
+    SECRET_KEY = os.environ['SECRET_KEY']
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ['DATABASE_NAME'],
+            'USER': os.environ['DATABASE_USERNAME'],
+            'PASSWORD': os.environ['DATABASE_PASSWORD'],
+            'HOST': os.environ['DATABASE_HOST'],
+            'PORT': '',
+        }
+    }
+
+    STATIC_ROOT = STATIC_DIR
+else:
+    STATICFILES_DIRS = [STATIC_DIR]
