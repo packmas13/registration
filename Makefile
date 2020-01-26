@@ -22,7 +22,7 @@ compilemessages: ## Compile the translated messages
 	$(manage) compilemessages
 
 
-MESSAGESDIRS = participant # Space separated modules with a translation
+MESSAGESDIRS = participant payment # Space separated modules with a translation
 
 messages: $(MESSAGESDIRS) ## Update the translation files
 
