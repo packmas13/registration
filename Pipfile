@@ -8,5 +8,3 @@ verify_ssl = true
 [packages]
 Django = "~=3.0"
 
-[requires]
-python_version = "3.8"

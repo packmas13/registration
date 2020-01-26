@@ -27,7 +27,7 @@ MESSAGESDIRS = participant # Space separated modules with a translation
 messages: $(MESSAGESDIRS) ## Update the translation files
 
 $(MESSAGESDIRS):
-		@$(MAKE) -C $@ messages
+	cd $@ && pipenv run django-admin makemessages
 
 .DEFAULT_GOAL := help
 .PHONY: help $(MESSAGESDIRS)
