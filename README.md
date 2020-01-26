@@ -1,6 +1,6 @@
 # Setup
 
-1. Make sure you Python 3.7+ installed
+1. Make sure you have Python 3.7+ installed
 2. `git clone https://github.com/packmas13/registration.git`
 3. `cd registration`
 4. `python3 -m venv venv`
