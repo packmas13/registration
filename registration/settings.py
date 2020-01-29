@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'account.apps.AccountConfig',
     'participant.apps.ParticipantConfig',
     'payment.apps.PaymentConfig',
+    'registration',
 ]
 
 MIDDLEWARE = [
