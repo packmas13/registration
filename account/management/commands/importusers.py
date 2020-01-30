@@ -13,7 +13,6 @@ class Command(BaseCommand):
         parser.add_argument("filepath", type=str)
 
     def handle(self, *args, **options):
-        # import os
         with open(options["filepath"]) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=",")
 
@@ -24,7 +23,6 @@ class Command(BaseCommand):
                 user, created = User.objects.get_or_create(email=row[columns["email"]])
                 if created:
                     created_users += 1
-                    pass
                     # TODO: trigger an event to send an email
 
                 troop, created = Troop.objects.get_or_create(
@@ -35,9 +33,7 @@ class Command(BaseCommand):
                     created_troops += 1
                 troop.users.add(user)
 
-        self.stdout.write(
-            f"{created_troops} new Troops\n{created_users} new Users"
-        )
+        self.stdout.write(f"{created_troops} new Troops\n{created_users} new Users")
 
     def _extract_columns(self, row) -> dict:
         required = ["email", "troop_number", "troop_name"]
