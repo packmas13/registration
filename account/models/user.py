@@ -43,3 +43,9 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     objects = UserManager()
+
+    troops = models.ManyToManyField(
+        'participant.Troop',
+        verbose_name=_('troops'),
+        related_name="users",
+    )

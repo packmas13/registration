@@ -24,6 +24,10 @@ compilemessages: ## Compile the translated messages
 test: ## Run the tests
 	$(manage) test
 
+lint:
+	pipenv run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exclude migrations,__pycache__
+	pipenv run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics --exclude migrations,__pycache__
+
 MESSAGESDIRS = participant payment # Space separated modules with a translation
 
 messages: $(MESSAGESDIRS) ## Update the translation files
