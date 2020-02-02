@@ -46,7 +46,7 @@ class ImportUsersTestCase(TestCase):
         self.assertEqual('Peter', user.first_name)
         self.assertEqual('Pan', user.last_name)
 
-    def test_missing_firstname_column(self):
+    def test_missing_column_firstname(self):
         csv = 'troop_number;troop_name;lastname;email\n' \
               '130000;Diözesanverband München-Freising;Pan;peter.pan@dpsg1300.de\n' \
               '131700;Bezirk Ebersberg;Sawyer;tom.sawyer@pfadfinder-ebersberg.de\n' \
@@ -73,12 +73,12 @@ class ImportUsersTestCase(TestCase):
             test_csv.write(csv)
 
         out = StringIO()
+        err = StringIO()
 
-        with self.assertRaises(CommandError):
-            call_command('import', 'test.csv', stdout=out)
+        call_command('import', 'test.csv', stdout=out, stderr=err)
 
-        self.assertEqual(0, get_user_model().objects.count(), 'users were created')
-        self.assertEqual(0, Troop.objects.count(), 'troops were created')
+        self.assertEqual(2, get_user_model().objects.count(), 'users were created')
+        self.assertEqual(2, Troop.objects.count(), 'troops were created')
 
     def test_duplicate_user_email(self):
         csv = 'troop_number;troop_name;firstname;lastname;email\n' \
@@ -90,12 +90,12 @@ class ImportUsersTestCase(TestCase):
             test_csv.write(csv)
 
         out = StringIO()
+        err = StringIO()
 
-        with self.assertRaises(CommandError):
-            call_command('import', 'test.csv', stdout=out)
+        call_command('import', 'test.csv', stdout=out, stderr=err)
 
-        self.assertEqual(0, get_user_model().objects.count(), 'users were created')
-        self.assertEqual(0, Troop.objects.count(), 'troops were created')
+        self.assertEqual(2, get_user_model().objects.count(), 'users were created')
+        self.assertEqual(2, Troop.objects.count(), 'troops were created')
 
     def test_double_import(self):
         csv = 'troop_number;troop_name;firstname;lastname;email\n' \
@@ -109,9 +109,7 @@ class ImportUsersTestCase(TestCase):
         out = StringIO()
 
         call_command('import', 'test.csv', stdout=out)
-
-        with self.assertRaises(CommandError):
-            call_command('import', 'test.csv', stdout=out)
+        call_command('import', 'test.csv', stdout=out)
 
         self.assertEqual(
             3, get_user_model().objects.count(), 'not the right quantity of users was created'
