@@ -2,10 +2,13 @@ from django.contrib.auth import get_user_model
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test import TestCase
-from participant.models import Troop
+from io import StringIO
 
 import os
-from io import StringIO
+import sys
+
+from participant.models import Troop
+from registration.management.commands import create_users
 
 
 class ImportUsersTestCase(TestCase):
@@ -14,6 +17,48 @@ class ImportUsersTestCase(TestCase):
             os.remove('test.csv')
         except OSError:
             pass
+
+    def test_something(self):
+        sys.stdout = open(os.devnull, 'w')
+        sys.stderr = open(os.devnull, 'w')
+
+        lines = [
+            {
+                'troop_number': 130000,
+                'troop_name': 'Diözesanverband München-Freising',
+                'firstname': 'Peter',
+                'lastname': 'Pan',
+                'email': 'peter.pan@dpsg1300.de',
+                'line_number': 1,
+            },
+            {
+                'troop_number': 131700,
+                'troop_name': 'Bezirk Ebersberg',
+                'firstname': 'Tom',
+                'lastname': 'Sawyer',
+                'email': 'tom.sawyer@pfadfinder-ebersberg.de',
+                'line_number': 2,
+            },
+            {
+                'troop_number': 131700,
+                'troop_name': 'Bezirk Ebersberg',
+                'firstname': 'Huckleberry',
+                'lastname': 'Finn',
+                'email': 'huckleberry.finn@pfadfinder-ebersberg.de',
+                'line_number': 3,
+            },
+        ]
+
+        cmd = create_users.Command()
+        cmd.import_lines(lines)
+
+        self.assertEqual(
+            3, get_user_model().objects.count(), 'not the right quantity of users was created'
+        )
+
+        self.assertEqual(
+            2, Troop.objects.count(), 'not the right quantity of troops was created'
+        )
 
     def test_successful_import(self):
         csv = 'troop_number;troop_name;firstname;lastname;email\n' \
@@ -26,7 +71,7 @@ class ImportUsersTestCase(TestCase):
 
         out = StringIO()
 
-        call_command('import', 'test.csv', stdout=out)
+        call_command('create_users', 'test.csv', stdout=out)
 
         self.assertEqual(
             3, get_user_model().objects.count(), 'not the right quantity of users was created'
@@ -58,7 +103,7 @@ class ImportUsersTestCase(TestCase):
         out = StringIO()
 
         with self.assertRaises(CommandError):
-            call_command('import', 'test.csv', stdout=out)
+            call_command('create_users', 'test.csv', stdout=out)
 
         self.assertEqual(0, get_user_model().objects.count(), 'users were created')
         self.assertEqual(0, Troop.objects.count(), 'troops were created')
@@ -75,7 +120,7 @@ class ImportUsersTestCase(TestCase):
         out = StringIO()
         err = StringIO()
 
-        call_command('import', 'test.csv', stdout=out, stderr=err)
+        call_command('create_users', 'test.csv', stdout=out, stderr=err)
 
         self.assertEqual(2, get_user_model().objects.count(), 'users were created')
         self.assertEqual(2, Troop.objects.count(), 'troops were created')
@@ -92,12 +137,12 @@ class ImportUsersTestCase(TestCase):
         out = StringIO()
         err = StringIO()
 
-        call_command('import', 'test.csv', stdout=out, stderr=err)
+        call_command('create_users', 'test.csv', stdout=out, stderr=err)
 
         self.assertEqual(2, get_user_model().objects.count(), 'users were created')
         self.assertEqual(2, Troop.objects.count(), 'troops were created')
 
-    def test_double_import(self):
+    def test_double_create_users(self):
         csv = 'troop_number;troop_name;firstname;lastname;email\n' \
               '130000;Diözesanverband München-Freising;Peter;Pan;peter.pan@dpsg1300.de\n' \
               '131700;Bezirk Ebersberg;Tom;Sawyer;tom.sawyer@pfadfinder-ebersberg.de\n' \
@@ -108,8 +153,8 @@ class ImportUsersTestCase(TestCase):
 
         out = StringIO()
 
-        call_command('import', 'test.csv', stdout=out)
-        call_command('import', 'test.csv', stdout=out)
+        call_command('create_users', 'test.csv', stdout=out)
+        call_command('create_users', 'test.csv', stdout=out)
 
         self.assertEqual(
             3, get_user_model().objects.count(), 'not the right quantity of users was created'

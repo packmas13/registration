@@ -13,37 +13,61 @@ class Command(BaseCommand):
         parser.add_argument('filename')
 
     def handle(self, *args, **options):
-        created_users, created_troops = 0, 0
-
         try:
             with open(options['filename'], newline='') as csv_file:
                 csv_reader = csv.reader(csv_file, delimiter=';')
                 columns = self._extract_columns(next(csv_reader))
 
+                lines = []
+
                 for i, row in enumerate(csv_reader):
                     try:
-                        troop, created = Troop.objects.get_or_create(
-                            number=row[columns['troop_number']],
-                            name=row[columns['troop_name']],
-                        )
+                        line = {
+                            'troop_number': row[columns['troop_number']],
+                            'troop_name': row[columns['troop_name']],
+                            'email': row[columns['email']],
+                            'firstname': row[columns['firstname']],
+                            'lastname': row[columns['lastname']],
+                            'line_number': i+2,
+                        }
 
-                        if created:
-                            created_troops += 1
+                        lines.append(line)
 
-                        user, created = get_user_model().objects.get_or_create(
-                            email=row[columns['email']],
-                            first_name=row[columns['firstname']],
-                            last_name=row[columns['lastname']],
-                        )
-
-                        if created:
-                            created_users += 1
                     except Exception as e:
                         self.stderr.write('Line {}: {}'.format(i+2, e.__cause__))
+
+                self.import_lines(lines)
+
         except FileNotFoundError:
             raise CommandError('File {} not found'.format(os.path.abspath(options['filename'])))
 
+    def import_lines(self, lines):
+        created_users, created_troops = 0, 0
+
+        for line in lines:
+            try:
+                troop, created = Troop.objects.get_or_create(
+                    number=line['troop_number'],
+                    name=line['troop_name'],
+                )
+
+                if created:
+                    created_troops += 1
+
+                user, created = get_user_model().objects.get_or_create(
+                    email=line['email'],
+                    first_name=line['firstname'],
+                    last_name=line['lastname'],
+                )
+
+                if created:
+                    created_users += 1
+
+            except Exception as e:
+                self.stderr.write('Line {}: {}'.format(line['line_number'], e.__cause__))
+
         self.stdout.write(f'Imported {created_troops} new troops and {created_users} new users')
+
 
     def _extract_columns(self, row) -> dict:
         required = ['email', 'firstname', 'lastname', 'troop_number', 'troop_name']
