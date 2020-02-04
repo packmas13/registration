@@ -68,7 +68,6 @@ class Command(BaseCommand):
 
         self.stdout.write(f'Imported {created_troops} new troops and {created_users} new users')
 
-
     def _extract_columns(self, row) -> dict:
         required = ['email', 'firstname', 'lastname', 'troop_number', 'troop_name']
         missing = [name for name in required if name not in row]
