@@ -28,6 +28,7 @@ class ImportUsersTestCase(TestCase):
         user = get_user_model().objects.get(email='peter.pan@dpsg1300.de')
         self.assertEqual('Peter', user.first_name)
         self.assertEqual('Pan', user.last_name)
+        self.assertEqual(1, user.troops.count())
 
     def test_missing_column_firstname(self):
         lines = [
