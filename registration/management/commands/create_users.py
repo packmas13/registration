@@ -60,6 +60,8 @@ class Command(BaseCommand):
                     last_name=line['lastname'],
                 )
 
+                user.troops.add(troop)
+
                 if created:
                     created_users += 1
 

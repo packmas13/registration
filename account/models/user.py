@@ -37,7 +37,13 @@ class UserManager(BaseUserManager):
 
 class User(AbstractUser):
     username = None
-    email = models.EmailField(_('email address'), unique=True)
+    email = models.EmailField(_('email'), unique=True)
+
+    troops = models.ManyToManyField(
+        'participant.Troop',
+        verbose_name=_('troops'),
+        blank=True,
+    )
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
