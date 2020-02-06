@@ -1,4 +1,4 @@
-troop_number;troop_name;firstname;lastname;email
-130000;Diözesanverband München-Freising;Peter;Pan;peter.pan@dpsg1300.de
-131700;Bezirk Ebersberg;Tom;Sawyer;tom.sawyer@pfadfinder-ebersberg.de
-131700;Bezirk Ebersberg;Huckleberry;Finn;huckleberry.finn@pfadfinder-ebersberg.de
+troop_number,troop_name,firstname,lastname,email
+130000,Diözesanverband München-Freising,Peter,Pan,peter.pan@dpsg1300.de
+131700,Bezirk Ebersberg,Tom,Sawyer,tom.sawyer@pfadfinder-ebersberg.de
+131700,Bezirk Ebersberg,Huckleberry,Finn,huckleberry.finn@pfadfinder-ebersberg.de

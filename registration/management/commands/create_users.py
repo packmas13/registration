@@ -15,7 +15,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         try:
             with open(options['filename'], newline='') as csv_file:
-                csv_reader = csv.reader(csv_file, delimiter=';')
+                csv_reader = csv.reader(csv_file)
                 columns = self._extract_columns(next(csv_reader))
 
                 lines = []
