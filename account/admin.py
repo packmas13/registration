@@ -1,12 +1,17 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from .models import User
 
 
+class TroopsInline(admin.TabularInline):
+    model = User.troops.through
+
+
 @admin.register(User)
 class UserAdmin(DjangoUserAdmin):
+    inlines = [TroopsInline, ]
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         (_('Personal info'), {'fields': ('first_name', 'last_name')}),

@@ -29,3 +29,13 @@ After changing models run `make migrations` to update the migrations files.
 After changing translations run `make messages` in the corresponding submodule.
 
 To add a dependency, run `pipenv install [dependency]` (add the `--dev` flag for dev-only dependencies).
+
+# Import of users and scout troops
+
+There is a custom management command to import a batch of users and scout troops and associate users with their respective troops:
+
+```
+python3 manage.py create_users <file.csv>
+```
+
+Have a look at `registration/test.csv` for the structure of the file.
