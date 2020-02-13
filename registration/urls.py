@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth.decorators import login_required
 from django.urls import include, path
 
 from participant.views import IndexView as ParticipantIndexView
@@ -32,5 +33,5 @@ urlpatterns = [
     path('participant/', include('participant.urls')),
 
     # landing page
-    path('', ParticipantIndexView.as_view(), name='index'),
+    path('', login_required(ParticipantIndexView.as_view()), name='index'),
 ]

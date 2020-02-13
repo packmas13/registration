@@ -2,6 +2,7 @@
 {% load i18n %}
 
 {% block content %}
+<a href="{% url "participant:create" %}">{% trans 'Create a new participant' %}</a>
 <ul>
 	{% for participant in participant_list %}
 		<li><a href="{% url "participant:detail" participant.pk %}">{{ participant.firstname }} {{ participant.lastname }}</a></li>
