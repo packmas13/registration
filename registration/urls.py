@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+from participant.views import IndexView as ParticipantIndexView
+
 urlpatterns = [
     # django admin interface
     path('admin/', admin.site.urls),
@@ -26,6 +28,9 @@ urlpatterns = [
     # authentication
     path('accounts/', include('account.urls')),
 
+    # participant management
+    path('participant/', include('participant.urls')),
+
     # landing page
-    path('', include('participant.urls')),
+    path('', ParticipantIndexView.as_view(), name='index'),
 ]

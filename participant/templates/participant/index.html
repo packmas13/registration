@@ -2,5 +2,11 @@
 {% load i18n %}
 
 {% block content %}
-    <p>{% trans 'Hello' %}!</p>
+<ul>
+	{% for participant in participant_list %}
+		<li><a href="{% url "participant:detail" participant.pk %}">{{ participant.firstname }} {{ participant.lastname }}</a></li>
+	{% empty %}
+		<li>No participants yet.</li>
+	{% endfor %}
+</ul>
 {% endblock %}

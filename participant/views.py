@@ -1,9 +1,20 @@
-from django.contrib.auth.decorators import login_required
-from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.views import generic
+
+from .models import Participant
 
 
-@login_required
-def view_participant(request):
-    return render(request, 'participant/index.html')
+class IndexView(generic.ListView):
+    template_name = 'participant/index.html'
+    context_object_name = 'participant_list'
+
+    def get_queryset(self):
+        return Participant.objects.filter(
+                Participant.filter_by_user(self.request.user)
+        ).all()
+
+
+class DetailView(generic.DetailView):
+    model = Participant
+    template_name = 'participant/detail.html'

@@ -145,8 +145,12 @@ class Participant(models.Model):
         verbose_name = _('participant')
         verbose_name_plural = _('participants')
         constraints = [
-            models.UniqueConstraint(fields=['firstname', 'lastname', 'birthday'], name='unique participant')
+            models.UniqueConstraint(fields=['firstname', 'lastname', 'birthday'], name='unique participant'),
         ]
+
+    @staticmethod
+    def filter_by_user(user):
+        return models.Q(troop__in=user.troops.all())
 
     def __str__(self):
         return '{} {} ({})'.format(self.firstname, self.lastname, localize(self.birthday))
