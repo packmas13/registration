@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import generic
@@ -5,7 +6,7 @@ from django.views import generic
 from .models import Participant
 
 
-class IndexView(generic.ListView):
+class IndexView(LoginRequiredMixin, generic.ListView):
     template_name = 'participant/index.html'
     context_object_name = 'participant_list'
 
@@ -15,12 +16,12 @@ class IndexView(generic.ListView):
         ).all()
 
 
-class DetailView(generic.DetailView):
+class DetailView(LoginRequiredMixin, generic.DetailView):
     model = Participant
     template_name = 'participant/detail.html'
 
 
-class CreateView(generic.CreateView):
+class CreateView(LoginRequiredMixin, generic.CreateView):
     model = Participant
     fields = ['troop', 'firstname', 'lastname', 'gender', 'birthday', 'email',
               'nami', 'age_section', 'is_leader', 'attendance', 'diet',

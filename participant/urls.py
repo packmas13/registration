@@ -4,7 +4,7 @@ from . import views
 
 app_name = 'participant'
 urlpatterns = [
-    path('', login_required(views.IndexView.as_view()), name='index'),
-    path('<int:pk>/', login_required(views.DetailView.as_view()), name='detail'),
-    path('create/', login_required(views.CreateView.as_view(success_url="/")), name='create'),
+    path('', views.IndexView.as_view(), name='index'),
+    path('<int:pk>/', views.DetailView.as_view(), name='detail'),
+    path('create/', views.CreateView.as_view(success_url="/"), name='create'),
 ]
