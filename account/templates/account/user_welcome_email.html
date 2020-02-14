@@ -1,0 +1,3 @@
+{% load tags %}
+Hello <strong>{{ user.first_name }}</strong> and welcome.
+Your token is <a href="{% setting "WEBSITE_URL" %}{% url 'password_reset_confirm' uidb64=uid token=token %}">this</a>.
