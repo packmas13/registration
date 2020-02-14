@@ -23,6 +23,9 @@ urlpatterns = [
     # internationalization
     path('i18n/', include('django.conf.urls.i18n')),
 
+    # authentication
+    path('accounts/', include('account.urls')),
+
     # landing page
     path('', include('participant.urls')),
 ]
