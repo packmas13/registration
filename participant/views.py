@@ -1,9 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import generic
 
 from .models import Participant
+from .forms import CreateParticipantForm
 
 
 class IndexView(LoginRequiredMixin, generic.ListView):
@@ -23,17 +23,9 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
 
 class CreateView(LoginRequiredMixin, generic.CreateView):
     model = Participant
-    fields = ['troop', 'firstname', 'lastname', 'gender', 'birthday', 'email',
-              'nami', 'age_section', 'is_leader', 'attendance', 'diet',
-              'medication', 'comment', ]
+    form_class = CreateParticipantForm
 
-    def get_form(self, *args, **kwargs):
-        form = super(CreateView, self).get_form(*args, **kwargs)
-        form.fields['troop'].queryset = self.request.user.troops.all()
-        return form
-
-    def get_initial(self, *args, **kwargs):
-        initial = super(CreateView, self).get_initial(**kwargs)
-        if self.request.user.troops.count() == 1:
-            initial['troop'] = self.request.user.troops.all()[:1].get()
-        return initial
+    def get_form_kwargs(self, **kwargs):
+        form_kwargs = super(CreateView, self).get_form_kwargs(**kwargs)
+        form_kwargs['user'] = self.request.user
+        return form_kwargs

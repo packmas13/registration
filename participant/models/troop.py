@@ -25,5 +25,10 @@ class Troop(models.Model):
         verbose_name = _('troop')
         verbose_name_plural = _('troops')
 
+    @staticmethod
+    def filter_by_user(user):
+        # TODO: return all troops for admin/staff/...
+        return models.Q(id__in=user.troops.all())
+
     def __str__(self):
         return '{} {}'.format(self.number, self.name)
