@@ -21,6 +21,8 @@ migrations: ## Create migrations after a model has been changed
 compilemessages: ## Compile the translated messages
 	$(manage) compilemessages
 
+test: ## Run the tests
+	$(manage) test
 
 MESSAGESDIRS = participant payment # Space separated modules with a translation
 

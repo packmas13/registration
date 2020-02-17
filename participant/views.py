@@ -4,7 +4,6 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 
-# replace by login_required
-@staff_member_required
+@login_required
 def view_participant(request):
     return render(request, 'participant/index.html')

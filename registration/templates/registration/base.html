@@ -2,64 +2,51 @@
 {% load i18n %}
 {% load tags %}
 
-{% get_current_language as lang_code %}
-
 <!DOCTYPE html>
 <html lang="{{ lang_code }}">
-    <head>
-        <meta charset="utf-8">
 
-        <link href="{% static "registration/css/style.css" %}" media="all" rel="stylesheet">
+<head>
+    <meta charset="utf-8">
 
-        <title>{% block title %}packmas13{% endblock %}</title>
-    </head>
+    <!-- TODO replace with a proper npm build and purge to reduce its size -->
+    <link href="{% static "registration/css/tailwind.min.css" %}" media="all" rel="stylesheet">
 
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
-            <div class="container">
-                <div class="navbar-collapse collapse" id="navbarcontent">
-                    <form action="{% url 'set_language' %}" method="post" role="form" class="form-inline">
-                        {% csrf_token %}
-                        <input name="next" type="hidden" value="{{ redirect_to }}" />
+    {% block extrastyle %}{% endblock %}
 
-                        <select name="language" onchange="this.form.submit()" class="form-control mr-sm-2">
-                        {% get_current_language as LANGUAGE_CODE %}
-                        {% get_available_languages as LANGUAGES %}
-                        {% get_language_info_list for LANGUAGES as languages %}
+    <link href="{% static "registration/css/style.css" %}" media="all" rel="stylesheet">
 
-                        {% for language in languages %}
-                            <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected="selected"{% endif %}>
-                                {{ language.name_local }}
-                            </option>
-                        {% endfor %}
-                        </select>
+    <title>{% block title %}packmas13{% endblock %}</title>
+</head>
 
-                        <noscript>
-                            <button type="submit" class="btn btn-outline-success my-2 my-sm-0">{% trans "Switch" %}</button>
-                        </noscript>
-                    </form>
+<body class="font-sans text-base leading-normal tracking-normal min-h-screen flex flex-col bg-gray-100">
+    {% include "registration/_base/header.html" %}
 
-		    {% if user.is_authenticated %}
-		        <a href="{% url "logout" %}">{% trans "Logout" %}</a>
-		    {% endif %}
-                </div>
-            </div>
+    <div class="flex-1 flex px-5">
+        {% if user.is_authenticated %}
+        <nav class="w-1/5 pr-2" style="min-width: 16rem;">
+            {% include "registration/_base/navigation.html" %}
         </nav>
-
-        <div class="container container-main">
-            {% block content %}{% endblock %}
-        </div>
-
-        <footer class="footer">
-            <div class="container">
-                <p class="text-muted">
-                    <a href="{% setting "PRIVACY_URL" %}" target="_blank">{% trans "Privacy" %}</a>
-                    |
-                    <a href="{% setting "IMPRINT_URL" %}" target="_blank">{% trans "Imprint" %}</a>
-                    |
-                    <a href="{% url "view_participant" %}">{% trans "About this software" %}</a>
-                </p>
+        {% endif %}
+        <div class="flex-1 flex flex-col {% if not user.is_authenticated %}md:mx-32{% endif %}">
+            <h1 class="text-3xl mt-5 text-gray-700">
+                {% block content_title %}{% endblock %}
+            </h1>
+            <div class="bg-white flex-1 shadow p-2">
+                {% block content %}{% endblock %}
             </div>
-        </footer>
-    </body>
+        </div>
+    </div>
+
+    <footer class="py-5">
+        <p class="text-gray-700 text-center">
+            <a class="hover:underline" href="{% setting "PRIVACY_URL" %}" target="_blank">{% trans "Privacy" %}</a>
+            -
+            <a class="hover:underline" href="{% setting "IMPRINT_URL" %}" target="_blank">{% trans "Imprint" %}</a>
+            -
+            <a class="hover:underline" href="https://github.com/packmas13/registration"
+                target="_blank">{% trans "About this software" %}</a>
+        </p>
+    </footer>
+</body>
+
 </html>

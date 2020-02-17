@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'widget_tweaks',
     'account.apps.AccountConfig',
     'participant.apps.ParticipantConfig',
     'payment.apps.PaymentConfig',
