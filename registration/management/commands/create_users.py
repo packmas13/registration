@@ -11,6 +11,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('filename')
+        parser.add_argument('--send-emails', action='store_true')
 
     def handle(self, *args, **options):
         try:
@@ -36,12 +37,12 @@ class Command(BaseCommand):
                     except Exception as e:
                         self.stderr.write('Line {}: {}'.format(i+2, e.__cause__))
 
-                self.import_lines(lines)
+                self.import_lines(lines, options['send_emails'])
 
         except FileNotFoundError:
             raise CommandError('File {} not found'.format(os.path.abspath(options['filename'])))
 
-    def import_lines(self, lines):
+    def import_lines(self, lines, send_emails=False):
         created_users, created_troops = 0, 0
 
         for line in lines:
@@ -64,6 +65,9 @@ class Command(BaseCommand):
 
                 if created:
                     created_users += 1
+
+                    if send_emails:
+                        user.send_welcome_email()
 
             except Exception as e:
                 self.stderr.write('Line {}: {}'.format(line['line_number'], e.__cause__))

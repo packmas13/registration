@@ -1,6 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.conf import settings
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
 
 
 class UserManager(BaseUserManager):
@@ -49,3 +55,22 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     objects = UserManager()
+
+    def send_welcome_email(self):
+        context = {
+            'user': self,
+            'uid': urlsafe_base64_encode(force_bytes(self.pk)),
+            'token': PasswordResetTokenGenerator().make_token(self),
+        }
+
+        msg_plain = render_to_string('account/user_welcome_email.txt', context)
+        msg_html = render_to_string('account/user_welcome_email.html', context)
+
+        # TODO: sender email address, subject, content of email
+        send_mail(
+            _('Welcome'),
+            msg_plain,
+            settings.DEFAULT_FROM_EMAIL,
+            [self.email],
+            html_message=msg_html,
+        )

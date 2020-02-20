@@ -18,6 +18,10 @@ from django.utils.translation import gettext_lazy as _
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+# Used for hyperlinks sent by mail
+WEBSITE_URL = "http://localhost:8000"
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -117,6 +121,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Custom User model
 AUTH_USER_MODEL = 'account.User'
 
+# Authentication
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+# Email
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
@@ -159,9 +170,13 @@ if 'DJANGO_PRODUCTION' in os.environ:
             'USER': os.environ['DATABASE_USERNAME'],
             'PASSWORD': os.environ['DATABASE_PASSWORD'],
             'HOST': os.environ['DATABASE_HOST'],
-            'PORT': '',
+            'PORT': os.environ['DATABASE_PORT'],
         }
     }
+
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = os.environ['EMAIL_HOST']
+    EMAIL_PORT = os.environ['EMAIL_PORT']
 
     STATIC_ROOT = STATIC_DIR
 else:

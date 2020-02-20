@@ -24,9 +24,11 @@ Finally, the Django server should be running and accessible under [http://localh
 
 # Hints
 
-After changing models run `make migrations` to update the migrations files.
+After changing models run `make migrations` to generate the migrations files and `make migrate`.
 
-After changing translations run `make messages` in the corresponding submodule.
+After changing translated text run `make messages` to update the localization files (`.po`), update the translations and run `make compilemessages`.
+
+Emails are sent to stdout instead of a SMTP server when run in debug mode.
 
 To add a dependency, run `pipenv install [dependency]` (add the `--dev` flag for dev-only dependencies).
 
@@ -35,7 +37,7 @@ To add a dependency, run `pipenv install [dependency]` (add the `--dev` flag for
 There is a custom management command to import a batch of users and scout troops and associate users with their respective troops:
 
 ```
-python3 manage.py create_users <file.csv>
+python3 manage.py create_users <file.csv> [--send-emails]
 ```
 
 Have a look at `registration/test.csv` for the structure of the file.
