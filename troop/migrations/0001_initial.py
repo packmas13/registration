@@ -64,9 +64,9 @@ class Migration(migrations.Migration):
                 ('deregistered_at', models.DateTimeField(blank=True, null=True, verbose_name='deregistered at')),
                 ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='created at')),
                 ('updated_at', models.DateTimeField(auto_now=True, verbose_name='updated at')),
-                ('attendance', models.ManyToManyField(to='participant.Attendance', verbose_name='attendance')),
-                ('diet', models.ManyToManyField(blank=True, to='participant.Diet', verbose_name='diet')),
-                ('troop', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='participant.Troop', verbose_name='troop')),
+                ('attendance', models.ManyToManyField(to='troop.Attendance', verbose_name='attendance')),
+                ('diet', models.ManyToManyField(blank=True, to='troop.Diet', verbose_name='diet')),
+                ('troop', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='troop.Troop', verbose_name='troop')),
             ],
             options={
                 'verbose_name': 'participant',

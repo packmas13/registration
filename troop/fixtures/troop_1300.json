@@ -1,0 +1,51 @@
+[
+  {
+    "model": "account.user",
+    "pk": 1,
+    "fields": {
+      "password": "",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "John",
+      "last_name": "Doe",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2020-02-19T21:27:41.334Z",
+      "email": "user@test",
+      "groups": [],
+      "user_permissions": [],
+      "troops": [1]
+    }
+  },
+  {
+    "model": "troop.attendance",
+    "pk": 1,
+    "fields": { "date": "2020-02-20" }
+  },
+  {
+    "model": "troop.attendance",
+    "pk": 2,
+    "fields": { "date": "2020-02-21" }
+  },
+  {
+    "model": "troop.troop",
+    "pk": 1,
+    "fields": {
+      "number": 1300,
+      "name": "Di\u00f6zesanverband M\u00fcnchen-Freising"
+    }
+  },
+  {
+    "model": "troop.troop",
+    "pk": 2,
+    "fields": {
+      "number": 1301,
+      "name": "No one should access this troop"
+    }
+  },
+  {
+    "model": "troop.troop",
+    "pk": 3,
+    "fields": { "number": 131700, "name": "Bezirk Ebersberg" }
+  }
+]

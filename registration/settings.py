@@ -48,9 +48,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'widget_tweaks',
     'account.apps.AccountConfig',
-    'participant.apps.ParticipantConfig',
+    # 'troop.apps.ParticipantConfig',
     'payment.apps.PaymentConfig',
     'registration',
+    'troop',
 ]
 
 MIDDLEWARE = [
@@ -182,3 +183,17 @@ if 'DJANGO_PRODUCTION' in os.environ:
     STATIC_ROOT = STATIC_DIR
 else:
     STATICFILES_DIRS = [STATIC_DIR]
+    # Uncomment the following to log the SQL queries
+    # LOGGING = {
+    #     'version': 1,
+    #     'disable_existing_loggers': False,
+    #     'handlers': {
+    #         'console': {
+    #             'level': 'DEBUG',
+    #             'class': 'logging.StreamHandler',
+    #         },
+    #     },
+    #     'loggers': {
+    #         "django.db.backends": {"level": "DEBUG", "handlers": ["console"]},
+    #     },
+    # }

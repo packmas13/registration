@@ -15,8 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.views.generic import TemplateView
 
-from participant.views import IndexView as ParticipantIndexView
 
 urlpatterns = [
     # django admin interface
@@ -28,9 +28,9 @@ urlpatterns = [
     # authentication
     path('accounts/', include('account.urls')),
 
-    # participant management
-    path('participant/', include('participant.urls')),
+    # troop management
+    path('troop/', include('troop.urls')),
 
     # landing page
-    path('', ParticipantIndexView.as_view(), name='index'),
+    path('', TemplateView.as_view(template_name="registration/index.html"), name='index'),
 ]

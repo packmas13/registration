@@ -14,7 +14,7 @@ class Discount(models.Model):
     """
 
     participant = models.ForeignKey(
-        'participant.Participant',
+        'troop.Participant',
         verbose_name=_('participant'),
         on_delete=models.CASCADE,
     )

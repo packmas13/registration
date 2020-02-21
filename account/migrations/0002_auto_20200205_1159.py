@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('participant', '0001_initial'),
+        ('troop', '0001_initial'),
         ('account', '0001_initial'),
     ]
 
@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='user',
             name='troops',
-            field=models.ManyToManyField(blank=True, to='participant.Troop', verbose_name='troops'),
+            field=models.ManyToManyField(blank=True, to='troop.Troop', verbose_name='troops'),
         ),
         migrations.AlterField(
             model_name='user',

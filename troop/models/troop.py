@@ -27,7 +27,7 @@ class Troop(models.Model):
 
     @staticmethod
     def filter_by_user(user):
-        if user.has_perm('participant.view_participant'):
+        if user.has_perm('troop.view_participant'):
             return models.Q()
         else:
             return models.Q(id__in=user.troops.all())

@@ -3,7 +3,7 @@ from django.core.management import call_command
 from django.test import TestCase
 from io import StringIO
 
-from participant.models import Troop
+from troop.models import Troop
 from registration.management.commands import create_users
 
 

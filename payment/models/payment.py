@@ -14,7 +14,7 @@ class Payment(models.Model):
     """
 
     troop = models.ForeignKey(
-        'participant.Troop',
+        'troop.Troop',
         verbose_name=_('troop'),
         on_delete=models.CASCADE,
     )

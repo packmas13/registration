@@ -46,7 +46,7 @@ class User(AbstractUser):
     email = models.EmailField(_('email'), unique=True)
 
     troops = models.ManyToManyField(
-        'participant.Troop',
+        'troop.Troop',
         verbose_name=_('troops'),
         blank=True,
     )

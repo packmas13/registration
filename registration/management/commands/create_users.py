@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand, CommandError
-from participant.models import Troop
+from troop.models import Troop
 
 import csv
 import os
