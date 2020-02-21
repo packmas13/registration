@@ -1,0 +1,35 @@
+{% load i18n %}
+
+{% for troop in request.user.troops.all %}
+    <h3 class="uppercase text-sm text-gray-800 mt-6">{{ troop.name }}</h3>
+    <div class="border-l-2 px-2 my-2">
+        {% include 'registration/_base/navigation_link.html' with href="password_change_form" text="Overview" %}
+        <!-- dates, number of registrations, prices...-->
+        {% include 'registration/_base/navigation_link.html' with href="password_change_form" text="New registration" %}
+        <!-- NaMi import, manual import-->
+        {% include 'registration/_base/navigation_link.html' with href="password_change_form" text="Current registrations" %}
+        <!-- List to view & edit-->
+    </div>
+{% endfor %}
+
+<!-- TODO hide/show depending on user rights-->
+<h3 class="uppercase text-sm text-gray-800 mt-6">Exports</h3>
+<div class="border-l-2 px-2 my-2">
+    {% include 'registration/_base/navigation_link.html' with href="password_change_form" text="Kitchen overview" %}
+    {% include 'registration/_base/navigation_link.html' with href="password_change_form" text="Helpers overview" %}
+    {% include 'registration/_base/navigation_link.html' with href="password_change_form" text="Medical overview" %}
+    {% include 'registration/_base/navigation_link.html' with href="password_change_form" text="Emergency management" %}
+</div>
+
+{% if request.user.is_superuser %}
+<h3 class="uppercase text-sm text-gray-800 mt-6">Verwaltung</h3>
+<div class="border-l-2 px-2 my-2">
+    {% include 'registration/_base/navigation_link.html' with href="admin:index" text="Django-Verwaltung" %}
+</div>
+{% endif %}
+
+<h3 class="uppercase text-sm text-gray-800 mt-6">{{ user.email }}</h3>
+<div class="border-l-2 px-2 my-2">
+    {% include 'registration/_base/navigation_link.html' with href="password_change_form" text="Change password" %}
+    {% include 'registration/_base/navigation_link.html' with href="logout" text="Logout" %}
+</div>

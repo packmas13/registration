@@ -1,0 +1,25 @@
+{% load i18n %}
+
+<header class="bg-green-600 px-5 flex">
+    <a href="/" class="text-3xl py-3 mr-3 flex-1 text-green-100">Packmas13</a>
+
+    <form action="{% url 'set_language' %}" method="post" role="form" class="flex-0 self-center">
+        {% csrf_token %}
+        <input name="next" type="hidden" value="{{ redirect_to }}" />
+        <select class="text-green-100 bg-green-600 px-2 py-1" name="language" onchange="this.form.submit()" class="">
+            {% get_current_language as LANGUAGE_CODE %}
+            {% get_available_languages as LANGUAGES %}
+            {% get_language_info_list for LANGUAGES as languages %}
+
+            {% for language in languages %}
+            <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected="selected" {% endif %}>
+                {{ language.name_local }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <noscript>
+            <button type="submit" class="">{% trans "Switch" %}</button>
+        </noscript>
+    </form>
+</header>

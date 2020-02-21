@@ -1,0 +1,8 @@
+{% load i18n %}
+
+{% url href as path %}
+<a class="block hover:underline
+    {% if request.path == path %}
+    font-bold text-green-900
+    {% endif %}"
+    href="{{ path }}">{% trans text %}</a>

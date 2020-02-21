@@ -41,3 +41,7 @@ python3 manage.py create_users <file.csv> [--send-emails]
 ```
 
 Have a look at `registration/test.csv` for the structure of the file.
+
+# Styling
+
+[Tailwindcss](https://tailwindcss.com/) "utility-framework" is used for the styling.

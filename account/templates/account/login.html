@@ -1,17 +1,33 @@
 {% extends "registration/base.html" %}
 {% load i18n %}
+{% load widget_tweaks %}
 
+{% block title %}{% trans 'Login' %}{% endblock%}
+{% block content_title %}{% trans 'Login' %}{% endblock%}
 {% block content %}
-    <h1>{% trans 'Login' %}</h1>
 
-    <a href="{% url 'password_reset' %}">{% trans 'Reset password' %}</a>
+<div class="text-center">
+    {{ form.non_field_errors }}
+</div>
 
-    <form action="{% url 'login' %}" method="post" accept-charset="utf-8" role="form">
-        {% csrf_token %}
+<form class="w-64 m-auto" action="{% url 'login' %}" method="post" accept-charset="utf-8" role="form">
+    {% csrf_token %}
 
-        {{ form }}
 
-        <input type="submit" value="{% trans 'Login' %}"/>
+    <div class="form-row">
+        {{ form.username.errors }}
+        {{ form.username.label_tag }}<br>{{ form.username|add_class:"w-full" }}
+    </div>
+    <div class="form-row">
+        {{ form.password.errors }}
+        {{ form.password.label_tag }}<br>{{ form.password|add_class:"w-full" }}
+    </div>
+    <a href="{% url 'password_reset' %}"
+        class="block text-sm text-right hover:underline">{% trans 'Reset password' %}</a>
 
-    </form>
+    <div class="text-center pt-2">
+        <input class="bg-green-600 text-white px-4 py-1 cursor-pointer uppercase" type="submit"
+            value="{% trans 'Login' %}" />
+    </div>
+</form>
 {% endblock %}
