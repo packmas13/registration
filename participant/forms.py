@@ -1,4 +1,4 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, Textarea
 
 from .models import Participant, Troop
 
@@ -13,7 +13,7 @@ class CreateParticipantForm(ModelForm):
         # get troops this user may manage
         troops = Troop.objects.filter(
             Troop.filter_by_user(self.user)
-        )
+        ).order_by('number')
 
         # limit troop queryset to the user's troops
         # apparently the submitted troop is checked against the queryset
@@ -28,3 +28,6 @@ class CreateParticipantForm(ModelForm):
         fields = ['troop', 'firstname', 'lastname', 'gender', 'birthday', 'email',
                   'nami', 'age_section', 'is_leader', 'attendance', 'diet',
                   'medication', 'comment', ]
+        widgets = {
+            'comment': Textarea(attrs={'cols': 32, 'rows': 4}),
+        }

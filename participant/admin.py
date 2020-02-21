@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib import admin
 
 from .models import Attendance, Diet, Participant, Troop
@@ -35,6 +36,12 @@ class ParticipantAdmin(admin.ModelAdmin):
     inlines = [DiscountInline, ]
     list_display = ('troop', 'firstname', 'lastname', 'birthday', 'age_section', 'is_leader', )
     list_display_links = ('firstname', 'lastname', 'birthday', )
+
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        formfield = super(ParticipantAdmin, self).formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name == 'comment':
+            formfield.widget = forms.Textarea(attrs=formfield.widget.attrs)
+        return formfield
 
 
 class ParticipantInline(admin.TabularInline):

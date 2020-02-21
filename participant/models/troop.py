@@ -27,8 +27,10 @@ class Troop(models.Model):
 
     @staticmethod
     def filter_by_user(user):
-        # TODO: return all troops for admin/staff/...
-        return models.Q(id__in=user.troops.all())
+        if user.has_perm('participant.view_participant'):
+            return models.Q()
+        else:
+            return models.Q(id__in=user.troops.all())
 
     def __str__(self):
         return '{} {}'.format(self.number, self.name)

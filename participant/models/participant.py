@@ -150,7 +150,10 @@ class Participant(models.Model):
 
     @staticmethod
     def filter_by_user(user):
-        return models.Q(troop__in=user.troops.all())
+        if user.has_perm('participant.view_participant'):
+            return models.Q()
+        else:
+            return models.Q(troop__in=user.troops.all())
 
     def __str__(self):
         return '{} {} ({})'.format(self.firstname, self.lastname, localize(self.birthday))
