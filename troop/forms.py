@@ -6,7 +6,7 @@ from django.forms import (
     RadioSelect,
 )
 
-from .models import Participant, Troop
+from .models import Attendance, Participant, Troop
 
 
 class CreateParticipantForm(ModelForm):
@@ -16,6 +16,7 @@ class CreateParticipantForm(ModelForm):
         if not self.initial:
             self.initial["gender"] = None
             self.initial["age_section"] = "none_selected"
+            self.initial["attendance"] = Attendance.objects.filter(is_main=True).all()
 
         self.initial["troop"] = troop
         # limit troop queryset to the current troops

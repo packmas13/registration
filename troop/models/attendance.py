@@ -8,12 +8,15 @@ class Attendance(models.Model):
 
     Columns:
         :date: a day of the camp
+        :is_main: day is part of the main camp (will be selected by default)
     """
 
     date = models.DateField(
         _('date'),
         unique=True,
     )
+
+    is_main = models.BooleanField(_("main day"),default=False)
 
     class Meta:
         verbose_name = _('attendance')

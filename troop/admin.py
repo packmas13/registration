@@ -17,6 +17,7 @@ class AttendanceInline(admin.TabularInline):
 
 class AttendanceAdmin(admin.ModelAdmin):
     inlines = [AttendanceInline, ]
+    list_display = ('date', 'is_main', )
 
 
 class DietInline(admin.TabularInline):
