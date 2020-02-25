@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils.formats import localize
+from django.utils.formats import date_format
 from django.utils.translation import gettext_lazy as _
 
 
@@ -24,4 +24,4 @@ class Attendance(models.Model):
         ordering = ('date', )
 
     def __str__(self):
-        return localize(self.date)
+        return date_format(self.date, format='D j. M Y')
