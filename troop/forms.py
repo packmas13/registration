@@ -42,11 +42,11 @@ class CreateParticipantForm(ModelForm):
             "comment",
         ]
         widgets = {
-            "troop": HiddenInput(),
-            "gender": RadioSelect(),
+            "troop": HiddenInput,
+            "gender": RadioSelect,
             "birthday": DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
             "age_section": RadioSelect(attrs={"required": True}),
-            "attendance": CheckboxSelectMultiple(),
-            "diet": CheckboxSelectMultiple(),
+            "attendance": CheckboxSelectMultiple,
+            "diet": CheckboxSelectMultiple,
             "comment": Textarea(attrs={"cols": 32, "rows": 4}),
         }
