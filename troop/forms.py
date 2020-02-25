@@ -4,6 +4,7 @@ from django.forms import (
     HiddenInput,
     CheckboxSelectMultiple,
     RadioSelect,
+    DateInput,
 )
 
 from .models import Attendance, Participant, Troop
@@ -43,6 +44,7 @@ class CreateParticipantForm(ModelForm):
         widgets = {
             "troop": HiddenInput(),
             "gender": RadioSelect(),
+            "birthday": DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
             "age_section": RadioSelect(attrs={"required": True}),
             "attendance": CheckboxSelectMultiple(),
             "diet": CheckboxSelectMultiple(),
