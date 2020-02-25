@@ -18,6 +18,7 @@ class Attendance(models.Model):
     class Meta:
         verbose_name = _('attendance')
         verbose_name_plural = _('attendance')
+        ordering = ('date', )
 
     def __str__(self):
         return localize(self.date)
