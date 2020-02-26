@@ -48,10 +48,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'widget_tweaks',
     'account.apps.AccountConfig',
-    # 'troop.apps.ParticipantConfig',
+    'troop.apps.TroopConfig',
     'payment.apps.PaymentConfig',
     'registration',
-    'troop',
 ]
 
 MIDDLEWARE = [
