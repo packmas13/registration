@@ -31,7 +31,7 @@
     "model": "troop.troop",
     "pk": 1,
     "fields": {
-      "number": 1300,
+      "number": 130000,
       "name": "Di\u00f6zesanverband M\u00fcnchen-Freising"
     }
   },
@@ -39,7 +39,7 @@
     "model": "troop.troop",
     "pk": 2,
     "fields": {
-      "number": 1301,
+      "number": 130100,
       "name": "No one should access this troop"
     }
   },
