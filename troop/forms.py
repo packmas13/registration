@@ -31,8 +31,8 @@ class CreateParticipantForm(ModelForm):
         fields = [
             "troop",
             "nami",
-            "firstname",
-            "lastname",
+            "first_name",
+            "last_name",
             "gender",
             "birthday",
             "age_section",

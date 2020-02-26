@@ -51,8 +51,8 @@ class Migration(migrations.Migration):
             name='Participant',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('firstname', models.CharField(max_length=128, verbose_name='firstname')),
-                ('lastname', models.CharField(max_length=128, verbose_name='lastname')),
+                ('first_name', models.CharField(max_length=128, verbose_name='first_name')),
+                ('last_name', models.CharField(max_length=128, verbose_name='last_name')),
                 ('gender', models.CharField(choices=[('male', 'male'), ('female', 'female'), ('diverse', 'diverse')], max_length=16, verbose_name='gender')),
                 ('birthday', models.DateField(verbose_name='birthday')),
                 ('email', models.EmailField(blank=True, max_length=254, verbose_name='email')),
@@ -75,6 +75,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name='participant',
-            constraint=models.UniqueConstraint(fields=('firstname', 'lastname', 'birthday'), name='unique participant'),
+            constraint=models.UniqueConstraint(fields=('first_name', 'last_name', 'birthday'), name='unique participant'),
         ),
     ]

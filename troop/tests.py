@@ -33,8 +33,8 @@ class CreateParticipantTest(TestCase):
 
     valid_data = {
         "troop": "1",  # id of the troop
-        "firstname": "Trick",
-        "lastname": "Duck",
+        "first_name": "Trick",
+        "last_name": "Duck",
         "gender": "male",
         "birthday": "1.1.1900",
         # "email": "", not required

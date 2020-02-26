@@ -35,8 +35,8 @@ class DietAdmin(admin.ModelAdmin):
 
 class ParticipantAdmin(admin.ModelAdmin):
     inlines = [DiscountInline, ]
-    list_display = ('troop', 'firstname', 'lastname', 'birthday', 'age_section', 'is_leader', )
-    list_display_links = ('firstname', 'lastname', 'birthday', )
+    list_display = ('troop', 'first_name', 'last_name', 'birthday', 'age_section', 'is_leader', )
+    list_display_links = ('first_name', 'last_name', 'birthday', )
 
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super(ParticipantAdmin, self).formfield_for_dbfield(db_field, **kwargs)
@@ -47,8 +47,8 @@ class ParticipantAdmin(admin.ModelAdmin):
 
 class ParticipantInline(admin.TabularInline):
     model = Participant
-    fields = ('firstname', 'lastname', 'birthday', )
-    readonly_fields = ('firstname', 'lastname', 'birthday', )
+    fields = ('first_name', 'last_name', 'birthday', )
+    readonly_fields = ('first_name', 'last_name', 'birthday', )
     can_delete = False
     show_change_link = True
 

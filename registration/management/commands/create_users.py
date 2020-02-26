@@ -27,8 +27,8 @@ class Command(BaseCommand):
                             'troop_number': row[columns['troop_number']],
                             'troop_name': row[columns['troop_name']],
                             'email': row[columns['email']],
-                            'firstname': row[columns['firstname']],
-                            'lastname': row[columns['lastname']],
+                            'first_name': row[columns['first_name']],
+                            'last_name': row[columns['last_name']],
                             'line_number': i+2,
                         }
 
@@ -57,8 +57,8 @@ class Command(BaseCommand):
 
                 user, created = get_user_model().objects.get_or_create(
                     email=line['email'],
-                    first_name=line['firstname'],
-                    last_name=line['lastname'],
+                    first_name=line['first_name'],
+                    last_name=line['last_name'],
                 )
 
                 user.troops.add(troop)
@@ -75,7 +75,7 @@ class Command(BaseCommand):
         self.stdout.write(f'Imported {created_troops} new troops and {created_users} new users')
 
     def _extract_columns(self, row) -> dict:
-        required = ['email', 'firstname', 'lastname', 'troop_number', 'troop_name']
+        required = ['email', 'first_name', 'last_name', 'troop_number', 'troop_name']
         missing = [name for name in required if name not in row]
 
         if missing:

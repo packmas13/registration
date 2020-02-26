@@ -13,8 +13,8 @@ class Participant(models.Model):
 
     Columns:
         :troop: scout troop to which the participant belongs
-        :firstname: given name
-        :lastname: surname
+        :first_name: given name
+        :last_name: surname
         :gender: gender
         :birthday: date of birth
         :email: email address
@@ -57,9 +57,9 @@ class Participant(models.Model):
 
     troop = models.ForeignKey(Troop, verbose_name=_("troop"), on_delete=models.CASCADE,)
 
-    firstname = models.CharField(_("firstname"), max_length=128,)
+    first_name = models.CharField(_("first_name"), max_length=128,)
 
-    lastname = models.CharField(_("lastname"), max_length=128,)
+    last_name = models.CharField(_("last_name"), max_length=128,)
 
     gender = models.CharField(
         _("gender"),
@@ -100,7 +100,7 @@ class Participant(models.Model):
         verbose_name_plural = _("participants")
         constraints = [
             models.UniqueConstraint(
-                fields=["firstname", "lastname", "birthday"], name="unique participant"
+                fields=["first_name", "last_name", "birthday"], name="unique participant"
             ),
         ]
 
@@ -125,5 +125,5 @@ class Participant(models.Model):
 
     def __str__(self):
         return "{} {} ({})".format(
-            self.firstname, self.lastname, localize(self.birthday)
+            self.first_name, self.last_name, localize(self.birthday)
         )
