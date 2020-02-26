@@ -65,7 +65,6 @@ class Participant(models.Model):
         _("gender"),
         max_length=16,
         choices=GENDER_CHOICES,
-        default=GENDER_DIVERSE,  # to prevent showing the None option on forms
     )
 
     birthday = models.DateField(_("birthday"),)

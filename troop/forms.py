@@ -24,6 +24,8 @@ class CreateParticipantForm(ModelForm):
         # apparently the submitted troop is checked against the queryset
         self.fields["troop"].queryset = Troop.objects.filter(id=troop.id)
 
+        self.fields["gender"].choices = Participant.GENDER_CHOICES
+
     class Meta:
         model = Participant
         fields = [
