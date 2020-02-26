@@ -1,29 +1,22 @@
-from django.urls import include, path
+from django.urls import path
 from . import views
 
 app_name = "troop"
 urlpatterns = [
+    path("<int:troop>/", views.IndexView.as_view(), name="index"),
     path(
-        "<int:troop>/",
-        include(
-            [
-                path("", views.IndexView.as_view(), name="index"),
-                path(
-                    "participants/",
-                    views.IndexParticipantView.as_view(),
-                    name="participant.index",
-                ),
-                path(
-                    "participants/<int:pk>/",
-                    views.UpdateParticipantView.as_view(),
-                    name="participant.edit",
-                ),
-                path(
-                    "participants/create/",
-                    views.CreateParticipantView.as_view(),
-                    name="participant.create",
-                ),
-            ]
-        ),
+        "<int:troop>/participants/",
+        views.IndexParticipantView.as_view(),
+        name="participant.index",
+    ),
+    path(
+        "<int:troop>/participants/<int:pk>/",
+        views.UpdateParticipantView.as_view(),
+        name="participant.edit",
+    ),
+    path(
+        "<int:troop>/participants/create/",
+        views.CreateParticipantView.as_view(),
+        name="participant.create",
     ),
 ]
