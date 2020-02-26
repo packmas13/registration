@@ -11,17 +11,14 @@ class Attendance(models.Model):
         :is_main: day is part of the main camp (will be selected by default)
     """
 
-    date = models.DateField(
-        _('date'),
-        unique=True,
-    )
+    date = models.DateField(_("date"), unique=True,)
 
-    is_main = models.BooleanField(_("main day"),default=False)
+    is_main = models.BooleanField(_("main day"), default=True)
 
     class Meta:
-        verbose_name = _('attendance')
-        verbose_name_plural = _('attendance')
-        ordering = ('date', )
+        verbose_name = _("attendance")
+        verbose_name_plural = _("attendance")
+        ordering = ("date",)
 
     def __str__(self):
-        return date_format(self.date, format='D j. M Y')
+        return date_format(self.date, format="D j. M Y")
