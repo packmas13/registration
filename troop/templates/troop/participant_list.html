@@ -29,7 +29,7 @@
 						{% if not participant.age_section %}
 							<em>Keine</em>
 						{% else %}
-							{{ participant.age_section }}
+							{{ participant.age_section|section_trans }}
 						{% endif %}
 						{% if participant.is_leader %}- Leiter{% endif %}
 					</span>
