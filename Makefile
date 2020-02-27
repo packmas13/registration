@@ -6,6 +6,9 @@ dev: db.sqlite3 ## Run the local dev server under http://localhost:8000/
 install: ## Install or update the python dependencies
 	pipenv install
 
+install-dev: ## Install or update the python dependencies for development
+	pipenv install --dev
+
 db.sqlite3: # if this file is not present, install everything
 	@$(MAKE) install migrate compilemessages superuser
 

@@ -24,6 +24,8 @@ Finally, the Django server should be running and accessible under [http://localh
 
 # Hints
 
+Run `make install-dev` if you plan to write some code (installs the linter).
+
 Run `make lint` to format your files using [black](https://github.com/psf/black).
 
 After changing models run `make migrations` to generate the migrations files and `make migrate`.
