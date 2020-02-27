@@ -32,7 +32,7 @@ lint:
 
 lintcheck:
 	# Fail if the code should be linted (fix it with "make lint")
-	pipenv run black --target-version=py37 --check .
+	pipenv run black --target-version=py37 --exclude migrations/ --check .
 	# Fail if there are Python syntax errors or undefined names
 	pipenv run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exclude migrations,__pycache__
 	# Print some warnings (without failing, thanks to exit-zero).
