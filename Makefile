@@ -31,7 +31,13 @@ lint:
 	pipenv run black --target-version=py37 .
 
 lintcheck:
+	# Fail if the code should be linted (fix it with "make lint")
 	pipenv run black --target-version=py37 --check .
+	# Fail if there are Python syntax errors or undefined names
+	pipenv run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exclude migrations,__pycache__
+	# Print some warnings (without failing, thanks to exit-zero).
+	# The GitHub editor is 127 chars wide.
+	pipenv run flake8 . --count --exit-zero --ignore=E231 --max-complexity=10 --max-line-length=127 --statistics --exclude migrations,__pycache__
 
 MESSAGESDIRS = participant payment # Space separated modules with a translation
 
