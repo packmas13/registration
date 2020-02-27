@@ -26,7 +26,7 @@ WEBSITE_URL = "http://localhost:8000"
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'd_f%p#1m9(=zfj_w0qu*u$=4v!28c37pvem^@%^+g5v0dlzeq_'
+SECRET_KEY = "d_f%p#1m9(=zfj_w0qu*u$=4v!28c37pvem^@%^+g5v0dlzeq_"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -34,68 +34,66 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 # URLs
-PRIVACY_URL = os.getenv('PRIVACY_URL', '/privacy/')
-IMPRINT_URL = os.getenv('IMPRINT_URL', '/imprint/')
+PRIVACY_URL = os.getenv("PRIVACY_URL", "/privacy/")
+IMPRINT_URL = os.getenv("IMPRINT_URL", "/imprint/")
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'widget_tweaks',
-    'account.apps.AccountConfig',
-    'participant.apps.ParticipantConfig',
-    'payment.apps.PaymentConfig',
-    'registration',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "widget_tweaks",
+    "account.apps.AccountConfig",
+    "troop.apps.TroopConfig",
+    "payment.apps.PaymentConfig",
+    "registration",
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'registration.middleware.force_default_language_middleware',
-    'django.middleware.locale.LocaleMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "registration.middleware.force_default_language_middleware",
+    "django.middleware.locale.LocaleMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = 'registration.urls'
+ROOT_URLCONF = "registration.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,  'registration', 'templates'), ],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [os.path.join(BASE_DIR, "registration", "templates"),],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
-            'libraries': {
-                'tags': 'registration.templates.tags',
-            }
+            "libraries": {"tags": "registration.templates.tags",},
         },
     },
 ]
 
-WSGI_APPLICATION = 'registration.wsgi.application'
+WSGI_APPLICATION = "registration.wsgi.application"
 
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
 
@@ -105,37 +103,31 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
 ]
 
 
 # Custom User model
-AUTH_USER_MODEL = 'account.User'
+AUTH_USER_MODEL = "account.User"
 
 # Authentication
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
 
 # Email
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'de'
+LANGUAGE_CODE = "de"
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 
@@ -144,41 +136,55 @@ USE_L10N = True
 USE_TZ = True
 
 LANGUAGES = [
-    ('de', _('German')),
-    ('en', _('English')),
+    ("de", _("German")),
+    ("en", _("English")),
 ]
 
 LOCALE_PATHS = [
-    os.path.join(BASE_DIR, 'registration', 'locale'),
+    os.path.join(BASE_DIR, "registration", "locale"),
 ]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_DIR = os.path.join(BASE_DIR, 'static')
+STATIC_URL = "/static/"
+STATIC_DIR = os.path.join(BASE_DIR, "static")
 
-if 'DJANGO_PRODUCTION' in os.environ:
-    ALLOWED_HOSTS = ['']
+if "DJANGO_PRODUCTION" in os.environ:
+    ALLOWED_HOSTS = [""]
     DEBUG = False
 
-    SECRET_KEY = os.environ['SECRET_KEY']
+    SECRET_KEY = os.environ["SECRET_KEY"]
 
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ['DATABASE_NAME'],
-            'USER': os.environ['DATABASE_USERNAME'],
-            'PASSWORD': os.environ['DATABASE_PASSWORD'],
-            'HOST': os.environ['DATABASE_HOST'],
-            'PORT': os.environ['DATABASE_PORT'],
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.environ["DATABASE_NAME"],
+            "USER": os.environ["DATABASE_USERNAME"],
+            "PASSWORD": os.environ["DATABASE_PASSWORD"],
+            "HOST": os.environ["DATABASE_HOST"],
+            "PORT": os.environ["DATABASE_PORT"],
         }
     }
 
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_HOST = os.environ['EMAIL_HOST']
-    EMAIL_PORT = os.environ['EMAIL_PORT']
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    EMAIL_HOST = os.environ["EMAIL_HOST"]
+    EMAIL_PORT = os.environ["EMAIL_PORT"]
 
     STATIC_ROOT = STATIC_DIR
 else:
     STATICFILES_DIRS = [STATIC_DIR]
+    # Uncomment the following to log the SQL queries
+    # LOGGING = {
+    #     'version': 1,
+    #     'disable_existing_loggers': False,
+    #     'handlers': {
+    #         'console': {
+    #             'level': 'DEBUG',
+    #             'class': 'logging.StreamHandler',
+    #         },
+    #     },
+    #     'loggers': {
+    #         "django.db.backends": {"level": "DEBUG", "handlers": ["console"]},
+    #     },
+    # }

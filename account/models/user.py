@@ -14,7 +14,7 @@ class UserManager(BaseUserManager):
 
     def _create_user(self, email, password, **extra_fields):
         if not email:
-            raise ValueError('The given email must be set')
+            raise ValueError("The given email must be set")
 
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
@@ -24,51 +24,49 @@ class UserManager(BaseUserManager):
         return user
 
     def create_user(self, email, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', False)
-        extra_fields.setdefault('is_superuser', False)
+        extra_fields.setdefault("is_staff", False)
+        extra_fields.setdefault("is_superuser", False)
 
         return self._create_user(email, password, **extra_fields)
 
     def create_superuser(self, email, password, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
 
-        if extra_fields.get('is_staff') is not True:
-            raise ValueError('Superuser must have is_staff=True.')
-        if extra_fields.get('is_superuser') is not True:
-            raise ValueError('Superuser must have is_superuser=True.')
+        if extra_fields.get("is_staff") is not True:
+            raise ValueError("Superuser must have is_staff=True.")
+        if extra_fields.get("is_superuser") is not True:
+            raise ValueError("Superuser must have is_superuser=True.")
 
         return self._create_user(email, password, **extra_fields)
 
 
 class User(AbstractUser):
     username = None
-    email = models.EmailField(_('email'), unique=True)
+    email = models.EmailField(_("email"), unique=True)
 
     troops = models.ManyToManyField(
-        'participant.Troop',
-        verbose_name=_('troops'),
-        blank=True,
+        "troop.Troop", verbose_name=_("troops"), blank=True,
     )
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
     objects = UserManager()
 
     def send_welcome_email(self):
         context = {
-            'user': self,
-            'uid': urlsafe_base64_encode(force_bytes(self.pk)),
-            'token': PasswordResetTokenGenerator().make_token(self),
+            "user": self,
+            "uid": urlsafe_base64_encode(force_bytes(self.pk)),
+            "token": PasswordResetTokenGenerator().make_token(self),
         }
 
-        msg_plain = render_to_string('account/user_welcome_email.txt', context)
-        msg_html = render_to_string('account/user_welcome_email.html', context)
+        msg_plain = render_to_string("account/user_welcome_email.txt", context)
+        msg_html = render_to_string("account/user_welcome_email.html", context)
 
         # TODO: sender email address, subject, content of email
         send_mail(
-            _('Welcome'),
+            _("Welcome"),
             msg_plain,
             settings.DEFAULT_FROM_EMAIL,
             [self.email],

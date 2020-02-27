@@ -1,0 +1,61 @@
+{% extends "registration/base.html" %}
+{% load i18n %}
+{% load widget_tweaks %}
+
+{% block content_title %}
+{% if not object %}
+    {% trans "Neue Anmeldung" %}
+{% else %}
+    {% trans "Anmeldung ändern" %}
+{% endif %}
+
+<small> - {{request.troop.name}}</small>{% endblock %}
+
+{% block content %}
+
+<div class="text-center">
+    {{ form.non_field_errors }}
+</div>
+
+<form method="post" class="max-w-sm mx-auto">{% csrf_token %}
+    {% for hidden_field in form.hidden_fields %}
+        {{ hidden_field.errors }}
+        {{ hidden_field }}
+    {% endfor %}
+
+    {% with 'checkbox radio' as inline_types %}
+    {% for field in form.visible_fields %}
+        <div class="form-row mb-3">
+            {{ field.label_tag }}
+            {% if field.field.required %}<span title="Pflichtfeld" class="text-gray-600">*</span>{% endif %}
+            {% if field.errors %}
+                {{ field.errors }}
+            {% else %}
+                <br>
+            {% endif %}
+            {% if field.field.widget.input_type in inline_types.split %}
+                {{ field }}
+            {% else %}
+                {{ field|add_class:"w-full" }}
+            {% endif %}
+        </div>
+    {% endfor %}
+    {% endwith %}
+
+    <div class="text-center">
+        {% if not object %}
+            <button type="submit" name="_addanother" value="1" class="bg-green-500 text-white px-4 py-1 cursor-pointer uppercase">
+                {% trans "Save and add another" %}
+            </button>
+        {% else %}
+            <a href="{% url "troop:participant.index" troop=request.troop.number %}" class="inline-block bg-gray-500 text-white px-4 py-1 cursor-pointer uppercase">
+                {% trans "Close" %}
+            </a>
+        {% endif %}
+        <button type="submit" class="bg-green-600 text-white px-4 py-1 cursor-pointer uppercase">
+            {% trans "Save" %}
+        </button>
+    </div>
+</form>
+
+{% endblock %}

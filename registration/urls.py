@@ -15,17 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.views.generic import TemplateView
+
 
 urlpatterns = [
     # django admin interface
-    path('admin/', admin.site.urls),
-
+    path("admin/", admin.site.urls),
     # internationalization
-    path('i18n/', include('django.conf.urls.i18n')),
-
+    path("i18n/", include("django.conf.urls.i18n")),
     # authentication
-    path('accounts/', include('account.urls')),
-
+    path("accounts/", include("account.urls")),
+    # troop management
+    path("troop/", include("troop.urls")),
     # landing page
-    path('', include('participant.urls')),
+    path(
+        "", TemplateView.as_view(template_name="registration/index.html"), name="index"
+    ),
 ]

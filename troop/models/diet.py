@@ -9,15 +9,11 @@ class Diet(models.Model):
         :name: diet name
     """
 
-    name = models.CharField(
-        _('name'),
-        max_length=128,
-        unique=True,
-    )
+    name = models.CharField(_("name"), max_length=128, unique=True,)
 
     class Meta:
-        verbose_name = _('diet')
-        verbose_name_plural = _('diets')
+        verbose_name = _("diet")
+        verbose_name_plural = _("diets")
 
     def __str__(self):
         return self.name

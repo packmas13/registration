@@ -75,11 +75,11 @@ msgid "troop"
 msgstr "Gruppierung"
 
 #: models/participant.py:64
-msgid "firstname"
+msgid "first_name"
 msgstr "Vorname"
 
 #: models/participant.py:69
-msgid "lastname"
+msgid "last_name"
 msgstr "Nachname"
 
 #: models/participant.py:74
