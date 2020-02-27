@@ -24,6 +24,9 @@ compilemessages: ## Compile the translated messages
 test: ## Run the tests
 	$(manage) test
 
+lint:
+	pipenv run black .
+
 MESSAGESDIRS = participant payment # Space separated modules with a translation
 
 messages: $(MESSAGESDIRS) ## Update the translation files
