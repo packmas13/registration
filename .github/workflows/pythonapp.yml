@@ -19,6 +19,8 @@ jobs:
         pip install pipenv
         CI=1 pipenv --bare install
         python --version ; pip --version ; pipenv --version
+    - name: Check that code was linted with black (run "make lint" on your code in case of error)
+      run: make lintcheck
     - name: Lint with flake8
       run: |
         CI=1 pipenv --bare install flake8

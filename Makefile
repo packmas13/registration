@@ -27,6 +27,9 @@ test: ## Run the tests
 lint:
 	pipenv run black .
 
+lintcheck:
+	pipenv run black --check .
+
 MESSAGESDIRS = participant payment # Space separated modules with a translation
 
 messages: $(MESSAGESDIRS) ## Update the translation files
