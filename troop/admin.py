@@ -8,7 +8,7 @@ from payment.admin import DiscountInline, PaymentInline
 
 class AttendanceInline(admin.TabularInline):
     model = Participant.attendance.through
-    readonly_fields = ('participant', )
+    readonly_fields = ("participant",)
     can_delete = False
 
     def has_add_permission(self, request, obj=None):
@@ -16,13 +16,18 @@ class AttendanceInline(admin.TabularInline):
 
 
 class AttendanceAdmin(admin.ModelAdmin):
-    inlines = [AttendanceInline, ]
-    list_display = ('date', 'is_main', )
+    inlines = [
+        AttendanceInline,
+    ]
+    list_display = (
+        "date",
+        "is_main",
+    )
 
 
 class DietInline(admin.TabularInline):
     model = Participant.diet.through
-    readonly_fields = ('participant', )
+    readonly_fields = ("participant",)
     can_delete = False
 
     def has_add_permission(self, request, obj=None):
@@ -30,25 +35,50 @@ class DietInline(admin.TabularInline):
 
 
 class DietAdmin(admin.ModelAdmin):
-    inlines = [DietInline, ]
+    inlines = [
+        DietInline,
+    ]
 
 
 class ParticipantAdmin(admin.ModelAdmin):
-    inlines = [DiscountInline, ]
-    list_display = ('troop', 'first_name', 'last_name', 'birthday', 'age_section', 'is_leader', )
-    list_display_links = ('first_name', 'last_name', 'birthday', )
+    inlines = [
+        DiscountInline,
+    ]
+    list_display = (
+        "troop",
+        "first_name",
+        "last_name",
+        "birthday",
+        "age_section",
+        "is_leader",
+    )
+    list_display_links = (
+        "first_name",
+        "last_name",
+        "birthday",
+    )
 
     def formfield_for_dbfield(self, db_field, **kwargs):
-        formfield = super(ParticipantAdmin, self).formfield_for_dbfield(db_field, **kwargs)
-        if db_field.name == 'comment':
+        formfield = super(ParticipantAdmin, self).formfield_for_dbfield(
+            db_field, **kwargs
+        )
+        if db_field.name == "comment":
             formfield.widget = forms.Textarea(attrs=formfield.widget.attrs)
         return formfield
 
 
 class ParticipantInline(admin.TabularInline):
     model = Participant
-    fields = ('first_name', 'last_name', 'birthday', )
-    readonly_fields = ('first_name', 'last_name', 'birthday', )
+    fields = (
+        "first_name",
+        "last_name",
+        "birthday",
+    )
+    readonly_fields = (
+        "first_name",
+        "last_name",
+        "birthday",
+    )
     can_delete = False
     show_change_link = True
 
@@ -57,9 +87,15 @@ class ParticipantInline(admin.TabularInline):
 
 
 class TroopAdmin(admin.ModelAdmin):
-    inlines = [ParticipantInline, PaymentInline, ]
-    list_display = ('number', 'name', )
-    list_display_links = ('name', )
+    inlines = [
+        ParticipantInline,
+        PaymentInline,
+    ]
+    list_display = (
+        "number",
+        "name",
+    )
+    list_display_links = ("name",)
 
 
 admin.site.register(Attendance, AttendanceAdmin)

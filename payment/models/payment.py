@@ -14,31 +14,18 @@ class Payment(models.Model):
     """
 
     troop = models.ForeignKey(
-        'troop.Troop',
-        verbose_name=_('troop'),
-        on_delete=models.CASCADE,
+        "troop.Troop", verbose_name=_("troop"), on_delete=models.CASCADE,
     )
 
-    amount = models.DecimalField(
-        _('amount'),
-        max_digits=8,
-        decimal_places=2,
-    )
+    amount = models.DecimalField(_("amount"), max_digits=8, decimal_places=2,)
 
-    comment = models.CharField(
-        _('comment'),
-        max_length=256,
-        blank=True,
-    )
+    comment = models.CharField(_("comment"), max_length=256, blank=True,)
 
-    created_at = models.DateTimeField(
-        _('created at'),
-        auto_now_add=True,
-    )
+    created_at = models.DateTimeField(_("created at"), auto_now_add=True,)
 
     class Meta:
-        verbose_name = _('payment')
-        verbose_name_plural = _('payments')
+        verbose_name = _("payment")
+        verbose_name_plural = _("payments")
 
     def __str__(self):
-        return '{}: {} €'.format(self.troop, localize(self.amount))
+        return "{}: {} €".format(self.troop, localize(self.amount))

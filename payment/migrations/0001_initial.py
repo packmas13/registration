@@ -9,36 +9,86 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('troop', '0001_initial'),
+        ("troop", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Payment',
+            name="Payment",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('amount', models.DecimalField(decimal_places=2, max_digits=8, verbose_name='amount')),
-                ('comment', models.CharField(blank=True, max_length=256, verbose_name='comment')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='created at')),
-                ('troop', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='troop.Troop', verbose_name='troop')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "amount",
+                    models.DecimalField(
+                        decimal_places=2, max_digits=8, verbose_name="amount"
+                    ),
+                ),
+                (
+                    "comment",
+                    models.CharField(
+                        blank=True, max_length=256, verbose_name="comment"
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(auto_now_add=True, verbose_name="created at"),
+                ),
+                (
+                    "troop",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="troop.Troop",
+                        verbose_name="troop",
+                    ),
+                ),
             ],
-            options={
-                'verbose_name': 'payment',
-                'verbose_name_plural': 'payments',
-            },
+            options={"verbose_name": "payment", "verbose_name_plural": "payments",},
         ),
         migrations.CreateModel(
-            name='Discount',
+            name="Discount",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('amount', models.DecimalField(decimal_places=2, max_digits=8, verbose_name='amount')),
-                ('comment', models.CharField(blank=True, max_length=256, verbose_name='comment')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='created at')),
-                ('participant', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='troop.Participant', verbose_name='participant')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "amount",
+                    models.DecimalField(
+                        decimal_places=2, max_digits=8, verbose_name="amount"
+                    ),
+                ),
+                (
+                    "comment",
+                    models.CharField(
+                        blank=True, max_length=256, verbose_name="comment"
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(auto_now_add=True, verbose_name="created at"),
+                ),
+                (
+                    "participant",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="troop.Participant",
+                        verbose_name="participant",
+                    ),
+                ),
             ],
-            options={
-                'verbose_name': 'discount',
-                'verbose_name_plural': 'discounts',
-            },
+            options={"verbose_name": "discount", "verbose_name_plural": "discounts",},
         ),
     ]

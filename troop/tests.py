@@ -65,7 +65,8 @@ class CreateParticipantTest(TestCase):
 
     def test_post_form(self):
         response = self.client.post(
-            reverse("troop:participant.create", kwargs={"troop": 130000}), self.valid_data
+            reverse("troop:participant.create", kwargs={"troop": 130000}),
+            self.valid_data,
         )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(

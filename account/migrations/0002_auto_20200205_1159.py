@@ -6,19 +6,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('troop', '0001_initial'),
-        ('account', '0001_initial'),
+        ("troop", "0001_initial"),
+        ("account", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='user',
-            name='troops',
-            field=models.ManyToManyField(blank=True, to='troop.Troop', verbose_name='troops'),
+            model_name="user",
+            name="troops",
+            field=models.ManyToManyField(
+                blank=True, to="troop.Troop", verbose_name="troops"
+            ),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='email',
-            field=models.EmailField(max_length=254, unique=True, verbose_name='email'),
+            model_name="user",
+            name="email",
+            field=models.EmailField(max_length=254, unique=True, verbose_name="email"),
         ),
     ]

@@ -9,72 +9,188 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Attendance',
+            name="Attendance",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date', models.DateField(unique=True, verbose_name='date')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("date", models.DateField(unique=True, verbose_name="date")),
             ],
             options={
-                'verbose_name': 'attendance',
-                'verbose_name_plural': 'attendance',
+                "verbose_name": "attendance",
+                "verbose_name_plural": "attendance",
             },
         ),
         migrations.CreateModel(
-            name='Diet',
+            name="Diet",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=128, unique=True, verbose_name='name')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(max_length=128, unique=True, verbose_name="name"),
+                ),
             ],
-            options={
-                'verbose_name': 'diet',
-                'verbose_name_plural': 'diets',
-            },
+            options={"verbose_name": "diet", "verbose_name_plural": "diets",},
         ),
         migrations.CreateModel(
-            name='Troop',
+            name="Troop",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('number', models.PositiveIntegerField(unique=True, verbose_name='number')),
-                ('name', models.CharField(max_length=128, unique=True, verbose_name='name')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "number",
+                    models.PositiveIntegerField(unique=True, verbose_name="number"),
+                ),
+                (
+                    "name",
+                    models.CharField(max_length=128, unique=True, verbose_name="name"),
+                ),
             ],
-            options={
-                'verbose_name': 'troop',
-                'verbose_name_plural': 'troops',
-            },
+            options={"verbose_name": "troop", "verbose_name_plural": "troops",},
         ),
         migrations.CreateModel(
-            name='Participant',
+            name="Participant",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('first_name', models.CharField(max_length=128, verbose_name='first_name')),
-                ('last_name', models.CharField(max_length=128, verbose_name='last_name')),
-                ('gender', models.CharField(choices=[('male', 'male'), ('female', 'female'), ('diverse', 'diverse')], max_length=16, verbose_name='gender')),
-                ('birthday', models.DateField(verbose_name='birthday')),
-                ('email', models.EmailField(blank=True, max_length=254, verbose_name='email')),
-                ('nami', models.PositiveIntegerField(unique=True, validators=[django.core.validators.MaxValueValidator(999999)], verbose_name='nami number')),
-                ('age_section', models.CharField(blank=True, choices=[('beaver', 'beaver'), ('cub', 'cub'), ('scout', 'scout'), ('venturer', 'venturer'), ('rover', 'rover')], max_length=16, verbose_name='age section')),
-                ('is_leader', models.BooleanField(verbose_name='leader')),
-                ('medication', models.CharField(blank=True, max_length=256, verbose_name='medication')),
-                ('comment', models.CharField(blank=True, max_length=256, verbose_name='comment')),
-                ('deregistered_at', models.DateTimeField(blank=True, null=True, verbose_name='deregistered at')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='created at')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='updated at')),
-                ('attendance', models.ManyToManyField(to='troop.Attendance', verbose_name='attendance')),
-                ('diet', models.ManyToManyField(blank=True, to='troop.Diet', verbose_name='diet')),
-                ('troop', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='troop.Troop', verbose_name='troop')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "first_name",
+                    models.CharField(max_length=128, verbose_name="first_name"),
+                ),
+                (
+                    "last_name",
+                    models.CharField(max_length=128, verbose_name="last_name"),
+                ),
+                (
+                    "gender",
+                    models.CharField(
+                        choices=[
+                            ("male", "male"),
+                            ("female", "female"),
+                            ("diverse", "diverse"),
+                        ],
+                        max_length=16,
+                        verbose_name="gender",
+                    ),
+                ),
+                ("birthday", models.DateField(verbose_name="birthday")),
+                (
+                    "email",
+                    models.EmailField(blank=True, max_length=254, verbose_name="email"),
+                ),
+                (
+                    "nami",
+                    models.PositiveIntegerField(
+                        unique=True,
+                        validators=[django.core.validators.MaxValueValidator(999999)],
+                        verbose_name="nami number",
+                    ),
+                ),
+                (
+                    "age_section",
+                    models.CharField(
+                        blank=True,
+                        choices=[
+                            ("beaver", "beaver"),
+                            ("cub", "cub"),
+                            ("scout", "scout"),
+                            ("venturer", "venturer"),
+                            ("rover", "rover"),
+                        ],
+                        max_length=16,
+                        verbose_name="age section",
+                    ),
+                ),
+                ("is_leader", models.BooleanField(verbose_name="leader")),
+                (
+                    "medication",
+                    models.CharField(
+                        blank=True, max_length=256, verbose_name="medication"
+                    ),
+                ),
+                (
+                    "comment",
+                    models.CharField(
+                        blank=True, max_length=256, verbose_name="comment"
+                    ),
+                ),
+                (
+                    "deregistered_at",
+                    models.DateTimeField(
+                        blank=True, null=True, verbose_name="deregistered at"
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(auto_now_add=True, verbose_name="created at"),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(auto_now=True, verbose_name="updated at"),
+                ),
+                (
+                    "attendance",
+                    models.ManyToManyField(
+                        to="troop.Attendance", verbose_name="attendance"
+                    ),
+                ),
+                (
+                    "diet",
+                    models.ManyToManyField(
+                        blank=True, to="troop.Diet", verbose_name="diet"
+                    ),
+                ),
+                (
+                    "troop",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="troop.Troop",
+                        verbose_name="troop",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'participant',
-                'verbose_name_plural': 'participants',
+                "verbose_name": "participant",
+                "verbose_name_plural": "participants",
             },
         ),
         migrations.AddConstraint(
-            model_name='participant',
-            constraint=models.UniqueConstraint(fields=('first_name', 'last_name', 'birthday'), name='unique participant'),
+            model_name="participant",
+            constraint=models.UniqueConstraint(
+                fields=("first_name", "last_name", "birthday"),
+                name="unique participant",
+            ),
         ),
     ]

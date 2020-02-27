@@ -37,9 +37,16 @@ class IndexParticipantView(OnlyTroopManagerMixin, generic.ListView):
     context_object_name = "participant_list"
 
     def get_queryset(self):
-        return self.request.troop.participant_set.order_by(
-            Participant.age_section_order(), "-is_leader", "last_name", "first_name",
-        ).all().annotate(attendance_count=Count('attendance'))
+        return (
+            self.request.troop.participant_set.order_by(
+                Participant.age_section_order(),
+                "-is_leader",
+                "last_name",
+                "first_name",
+            )
+            .all()
+            .annotate(attendance_count=Count("attendance"))
+        )
 
 
 class UpdateParticipantView(OnlyTroopManagerMixin, generic.UpdateView):

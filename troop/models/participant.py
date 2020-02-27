@@ -61,11 +61,7 @@ class Participant(models.Model):
 
     last_name = models.CharField(_("last_name"), max_length=128,)
 
-    gender = models.CharField(
-        _("gender"),
-        max_length=16,
-        choices=GENDER_CHOICES,
-    )
+    gender = models.CharField(_("gender"), max_length=16, choices=GENDER_CHOICES,)
 
     birthday = models.DateField(_("birthday"),)
 
@@ -100,7 +96,8 @@ class Participant(models.Model):
         verbose_name_plural = _("participants")
         constraints = [
             models.UniqueConstraint(
-                fields=["first_name", "last_name", "birthday"], name="unique participant"
+                fields=["first_name", "last_name", "birthday"],
+                name="unique participant",
             ),
         ]
 

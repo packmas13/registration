@@ -10,27 +10,20 @@ class Troop(models.Model):
         :name: name of the troop
     """
 
-    number = models.PositiveIntegerField(
-        _('number'),
-        unique=True,
-    )
+    number = models.PositiveIntegerField(_("number"), unique=True,)
 
-    name = models.CharField(
-        _('name'),
-        max_length=128,
-        unique=True,
-    )
+    name = models.CharField(_("name"), max_length=128, unique=True,)
 
     class Meta:
-        verbose_name = _('troop')
-        verbose_name_plural = _('troops')
+        verbose_name = _("troop")
+        verbose_name_plural = _("troops")
 
     @staticmethod
     def filter_by_user(user):
-        if user.has_perm('troop.view_participant'):
+        if user.has_perm("troop.view_participant"):
             return models.Q()
         else:
             return models.Q(id__in=user.troops.all())
 
     def __str__(self):
-        return '{} {}'.format(self.number, self.name)
+        return "{} {}".format(self.number, self.name)
