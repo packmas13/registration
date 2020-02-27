@@ -24,6 +24,8 @@ Finally, the Django server should be running and accessible under [http://localh
 
 # Hints
 
+Run `make lint` to format your files using [black](https://github.com/psf/black).
+
 After changing models run `make migrations` to generate the migrations files and `make migrate`.
 
 After changing translated text run `make messages` to update the localization files (`.po`), update the translations and run `make compilemessages`.
