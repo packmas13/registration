@@ -25,10 +25,10 @@ test: ## Run the tests
 	$(manage) test
 
 lint:
-	pipenv run black .
+	pipenv run black --target-version=py37 .
 
 lintcheck:
-	pipenv run black --check .
+	pipenv run black --target-version=py37 --check .
 
 MESSAGESDIRS = participant payment # Space separated modules with a translation
 
