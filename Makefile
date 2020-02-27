@@ -37,7 +37,7 @@ lintcheck:
 	pipenv run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exclude migrations,__pycache__
 	# Print some warnings (without failing, thanks to exit-zero).
 	# The GitHub editor is 127 chars wide.
-	pipenv run flake8 . --count --exit-zero --ignore=E231 --max-complexity=10 --max-line-length=127 --statistics --exclude migrations,__pycache__
+	pipenv run flake8 . --count --exit-zero --ignore=E231 --per-file-ignores='__init__.py:F401' --max-complexity=10 --max-line-length=127 --statistics --exclude migrations,__pycache__
 
 MESSAGESDIRS = participant payment # Space separated modules with a translation
 
