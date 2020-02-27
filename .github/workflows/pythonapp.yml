@@ -2,29 +2,33 @@ name: Django application
 
 on: [push]
 
+env:
+  CI: 1 # To reduce noise of pipenv
+
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Set up Python 3.7
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.7
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install pipenv
-        CI=1 pipenv --bare install
-        python --version ; pip --version ; pipenv --version
-    - name: Test with manage.py
-      run: |
-        CI=1 pipenv --bare run python -Wa manage.py test
-    - name: Install dev dependencies
-      run: |
-        CI=1 pipenv --bare install --dev
-    - name: Check that code was linted (run "make lint" on your code in case of black error)
-      run: |
-        make lintcheck
+      - uses: actions/checkout@v1
+
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pipenv
+          make install
+          python --version ; pip --version ; pipenv --version
+
+      - name: Run automated tests
+        run: make test
+
+      - name: Install dev dependencies
+        run: make install-dev
+
+      - name: Check that code was linted (run "make lint" on your code in case of black error)
+        run: make lintcheck
