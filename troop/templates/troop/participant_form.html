@@ -4,9 +4,9 @@
 
 {% block content_title %}
 {% if not object %}
-    Neue Anmeldung
+    {% trans "Neue Anmeldung" %}
 {% else %}
-    Anmeldung ändern
+    {% trans "Anmeldung ändern" %}
 {% endif %}
 
 <small> - {{request.troop.name}}</small>{% endblock %}
@@ -45,15 +45,15 @@
     <div class="text-center">
         {% if not object %}
             <button type="submit" name="_addanother" value="1" class="bg-green-500 text-white px-4 py-1 cursor-pointer uppercase">
-                Sichern und neu hinzufügen
+                {% trans "Save and add another" %}
             </button>
         {% else %}
             <a href="{% url "troop:participant.index" troop=request.troop.number %}" class="inline-block bg-gray-500 text-white px-4 py-1 cursor-pointer uppercase">
-                Abbrechen
+                {% trans "Close" %}
             </a>
         {% endif %}
         <button type="submit" class="bg-green-600 text-white px-4 py-1 cursor-pointer uppercase">
-            Sichern
+            {% trans "Save" %}
         </button>
     </div>
 </form>

@@ -36,6 +36,11 @@ class IndexParticipantView(OnlyTroopManagerMixin, generic.ListView):
     template_name = "participant/index.html"
     context_object_name = "participant_list"
 
+    extra_context = {
+        "header_" + field.name: getattr(field, "verbose_name", field.name)
+        for field in Participant._meta.get_fields()
+    }
+
     def get_queryset(self):
         return (
             self.request.troop.participant_set.order_by(
@@ -67,7 +72,9 @@ class UpdateParticipantView(OnlyTroopManagerMixin, generic.UpdateView):
         return reverse("troop:participant.index", kwargs=kwargs)
 
     def form_invalid(self, form):
-        messages.add_message(self.request, messages.ERROR, _("form.error"))
+        messages.add_message(
+            self.request, messages.ERROR, _("Please correct the error below.")
+        )
 
         response = super().form_invalid(form)
         response.status_code = 422  # Unprocessable Entity
@@ -92,7 +99,9 @@ class CreateParticipantView(OnlyTroopManagerMixin, generic.CreateView):
         return reverse("troop:participant.index", kwargs=kwargs)
 
     def form_invalid(self, form):
-        messages.add_message(self.request, messages.ERROR, _("form.error"))
+        messages.add_message(
+            self.request, messages.ERROR, _("Please correct the error below.")
+        )
 
         response = super().form_invalid(form)
         response.status_code = 422  # Unprocessable Entity

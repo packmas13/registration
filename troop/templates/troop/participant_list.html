@@ -2,20 +2,20 @@
 {% load i18n %}
 {% load troop_extras %}
 
-{% block content_title %}Aktuelle Anmeldungen<small> - {{request.troop.name}}</small>{% endblock %}
+{% block content_title %}{% trans "Aktuelle Anmeldungen" %}<small> - {{request.troop.name}}</small>{% endblock %}
 {% block content %}
 
 {% if not participant_list %}
-	<p>Noch keine Anmeldung.</p>
+	<p>{% trans "Noch keine Anmeldung." %}</p>
 {% else %}
 	<div class="table w-full">
 		<div class="table-row-group">
 			<div class="table-row font-bold">
-				<span class="table-cell p-2">Stufe</span>
-				<span class="table-cell p-2">Nachname</span>
-				<span class="table-cell p-2">Vorname</span>
-				<span class="table-cell p-2">Tage am Lager</span>
-				<span class="table-cell p-2">NaMi</span>
+				<span class="table-cell p-2">{{ header_age_section }}</span>
+				<span class="table-cell p-2">{{ header_last_name }}</span>
+				<span class="table-cell p-2">{{ header_first_name }}</span>
+				<span class="table-cell p-2">{% trans "Tage am Lager" %}</span>
+				<span class="table-cell p-2">{{ header_nami }}</span>
 			</div>
 		</div>
 		<div class="table-row-group">
@@ -27,11 +27,11 @@
 				<a class="table-row {% cycle 'bg-gray-100' 'bg-gray-200' 'bg-gray-100' %} hover:bg-green-200" href="{% url "troop:participant.edit"  troop=request.troop.number pk=participant.pk %}">
 					<span class="table-cell p-2 border-{{color}} border-l-4 {% if forloop.first %}rounded-tl{% endif %} {% if forloop.last %}rounded-bl{% endif %}">
 						{% if not participant.age_section %}
-							<em>Keine</em>
+							<em>{% trans "no section" %}</em>
 						{% else %}
 							{{ participant.age_section|section_trans }}
 						{% endif %}
-						{% if participant.is_leader %}- Leiter{% endif %}
+						{% if participant.is_leader %}- {% trans "Leader" %}{% endif %}
 					</span>
 					<span class="table-cell p-2">{{ participant.last_name }}</span>
 					<span class="table-cell p-2">{{ participant.first_name }}</span>
@@ -46,6 +46,6 @@
 {% endif %}
 
 <div class="mt-2">
-	<a href="{% url "troop:participant.create" troop=request.troop.number %}" class="bg-green-600 text-white px-4 py-1 cursor-pointer uppercase">Neue Anmeldung</a>
+	<a href="{% url "troop:participant.create" troop=request.troop.number %}" class="bg-green-600 text-white px-4 py-1 cursor-pointer uppercase">{% trans "Neue Anmeldung" %}</a>
 </div>
 {% endblock %}

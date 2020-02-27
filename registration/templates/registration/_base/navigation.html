@@ -18,7 +18,7 @@
 {% endfor %}
 
 <!-- TODO hide/show depending on user rights-->
-<h3 class="uppercase text-sm text-gray-800 mt-6">Exports</h3>
+<h3 class="uppercase text-sm text-gray-800 mt-6">{% trans "Exporte" %}</h3>
 <div class="my-2">
     {% include 'registration/_base/navigation_link.html' with to="password_change_form" text="Kitchen overview" %}
     {% include 'registration/_base/navigation_link.html' with to="password_change_form" text="Helpers overview" %}
@@ -27,7 +27,7 @@
 </div>
 
 {% if request.user.is_superuser %}
-<h3 class="uppercase text-sm text-gray-800 mt-6">Verwaltung</h3>
+<h3 class="uppercase text-sm text-gray-800 mt-6">{% trans "Verwaltung" %}</h3>
 <div class="my-2">
     {% include 'registration/_base/navigation_link.html' with to="admin:index" text="Django-Verwaltung" %}
 </div>
