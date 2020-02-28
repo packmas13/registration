@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "troop.apps.TroopConfig",
     "payment.apps.PaymentConfig",
     "registration",
+    "nami",
 ]
 
 MIDDLEWARE = [
