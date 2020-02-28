@@ -1,0 +1,52 @@
+{% extends "registration/base.html" %}
+{% load i18n %}
+{% load widget_tweaks %}
+
+{% block content_title %}
+{% trans "E-Mail to participants" %}<small> - {{request.troop.name}}</small>
+{% endblock %}
+
+{% block content %}
+
+<p class="mb-4" xmlns="http://www.w3.org/1999/html">
+    {% trans "Only use this form to send messages strictly related to the organization of the camp (according to GDPR / DSGVO)" %}. <br>
+    {% trans "Warning: Only participants registered with an e-mail address will receive your message" %}.
+</p>
+
+<div class="text-center">
+    {{ form.non_field_errors }}
+</div>
+
+<form method="post" class="max-w-sm mx-auto">{% csrf_token %}
+    {% for hidden_field in form.hidden_fields %}
+        {{ hidden_field.errors }}
+        {{ hidden_field }}
+    {% endfor %}
+
+    {% with 'checkbox radio' as inline_types %}
+    {% for field in form.visible_fields %}
+        <div class="form-row mb-3">
+            {{ field.label_tag }}
+            {% if field.field.required %}<span title="Pflichtfeld" class="text-gray-600">*</span>{% endif %}
+            {% if field.errors %}
+                {{ field.errors }}
+            {% else %}
+                <br>
+            {% endif %}
+            {% if field.field.widget.input_type in inline_types.split %}
+                {{ field }}
+            {% else %}
+                {{ field|add_class:"w-full" }}
+            {% endif %}
+        </div>
+    {% endfor %}
+    {% endwith %}
+
+    <div class="text-center">
+        <button type="submit" class="bg-green-600 text-white px-4 py-1 cursor-pointer uppercase">
+            {% trans "Send" %}
+        </button>
+    </div>
+</form>
+
+{% endblock %}

@@ -14,6 +14,9 @@
         {% url 'troop:participant.index' troop_number=troop.number as href %}
         {% include 'registration/_base/navigation_link.html' with href=href text="Aktuelle Anmeldungen" %}
         <!-- List to view & edit-->
+
+        {% url 'troop:email' troop_number=troop.number as href %}
+        {% include 'registration/_base/navigation_link.html' with href=href text="E-Mail an Teilnehmer" %}
     </div>
 {% endfor %}
 
