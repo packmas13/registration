@@ -4,6 +4,7 @@ from . import views
 app_name = "troop"
 urlpatterns = [
     path("<int:troop_number>/", views.IndexView.as_view(), name="index"),
+    path("<int:troop_number>/email/", views.SendEmailView.as_view(), name="email"),
     path(
         "<int:troop_number>/participant/",
         views.IndexParticipantView.as_view(),

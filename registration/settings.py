@@ -20,6 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Used for hyperlinks sent by mail
 WEBSITE_URL = "http://localhost:8000"
+WEBSITE_DOMAIN = "localhost"
 
 
 EMERGENCY_PHONE = "+49 170 123-456-789"

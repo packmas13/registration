@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-28 22:00+0100\n"
+"POT-Creation-Date: 2020-03-29 19:53+0200\n"
 "PO-Revision-Date: 2020-01-26 00:15+0100\n"
 "Last-Translator: Simon Ellmann <simon.ellmann@tum.de>\n"
 "Language-Team: NOREPLY <noreply@example.org>\n"
@@ -18,23 +18,91 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: forms.py:60
+msgid "All sections"
+msgstr "Alle Stufen"
+
+#: forms.py:61
+msgid "Beavers"
+msgstr "Biber"
+
+#: forms.py:62
+msgid "Cubs"
+msgstr "Wölflinge"
+
+#: forms.py:63
+msgid "Scouts"
+msgstr "Jungpfadfinder"
+
+#: forms.py:64
+msgid "Venturers"
+msgstr "Pfadfinder"
+
+#: forms.py:65
+msgid "Rovers"
+msgstr "Rover"
+
+#: forms.py:66
+msgid "No section"
+msgstr "Keine Stufe"
+
+#: forms.py:70
+msgid "All"
+msgstr "Alle"
+
+#: forms.py:71
+msgid "Only leaders"
+msgstr "Nur Leiter"
+
+#: forms.py:72
+msgid "Only children"
+msgstr "Nur Kinder"
+
+#: forms.py:75
+msgid "Sender"
+msgstr "Absender"
+
+#: forms.py:76
+msgid "Reply to"
+msgstr "Antwort an"
+
+#: forms.py:78
+msgid "Section"
+msgstr "Stufe"
+
+#: forms.py:79
+msgid "Status"
+msgstr "Status"
+
+#: forms.py:81
+msgid "Subject"
+msgstr "Betreff"
+
+#: forms.py:83
+msgid "Message"
+msgstr "Nachricht"
+
 #: models/attendance.py:14
 msgid "date"
 msgstr "Datum"
 
-#: models/attendance.py:19 models/attendance.py:20 models/participant.py:107
+#: models/attendance.py:16
+msgid "main day"
+msgstr "Haupt-Lagertag"
+
+#: models/attendance.py:19 models/attendance.py:20 models/participant.py:80
 msgid "attendance"
 msgstr "Anwesenheit"
 
-#: models/diet.py:13 models/troop.py:19
+#: models/diet.py:12 models/troop.py:15
 msgid "name"
 msgstr "Name"
 
-#: models/diet.py:19 models/participant.py:112
+#: models/diet.py:15 models/participant.py:82
 msgid "diet"
 msgstr "Ernährungsart"
 
-#: models/diet.py:20
+#: models/diet.py:16
 msgid "diets"
 msgstr "Ernährungsarten"
 
@@ -51,97 +119,213 @@ msgid "diverse"
 msgstr "divers"
 
 #: models/participant.py:50
+msgid "no section"
+msgstr "keine Stufe"
+
+#: models/participant.py:51
 msgid "beaver"
 msgstr "Biber"
 
-#: models/participant.py:51
+#: models/participant.py:52
 msgid "cub"
 msgstr "Wölfling"
 
-#: models/participant.py:52
+#: models/participant.py:53
 msgid "scout"
 msgstr "Jungpfadfinder"
 
-#: models/participant.py:53
+#: models/participant.py:54
 msgid "venturer"
 msgstr "Pfadfinder"
 
-#: models/participant.py:54
+#: models/participant.py:55
 msgid "rover"
 msgstr "Rover"
 
-#: models/participant.py:59 models/troop.py:25
+#: models/participant.py:58 models/troop.py:18
 msgid "troop"
 msgstr "Gruppierung"
 
-#: models/participant.py:64
-msgid "first_name"
+#: models/participant.py:60
+msgid "first name"
 msgstr "Vorname"
 
-#: models/participant.py:69
-msgid "last_name"
+#: models/participant.py:62
+msgid "last name"
 msgstr "Nachname"
 
-#: models/participant.py:74
+#: models/participant.py:64
 msgid "gender"
 msgstr "Geschlecht"
 
-#: models/participant.py:80
+#: models/participant.py:66
 msgid "birthday"
 msgstr "Geburtstag"
 
-#: models/participant.py:84
+#: models/participant.py:68
 msgid "email"
 msgstr "E-Mail"
 
-#: models/participant.py:89
+#: models/participant.py:71
 msgid "nami number"
 msgstr "NaMi-Nummer"
 
-#: models/participant.py:95
+#: models/participant.py:75
 msgid "age section"
 msgstr "Stufe"
 
-#: models/participant.py:102
+#: models/participant.py:78
 msgid "leader"
 msgstr "Leiter"
 
-#: models/participant.py:117
+#: models/participant.py:84
 msgid "medication"
 msgstr "Medikamente"
 
-#: models/participant.py:123
+#: models/participant.py:86
 msgid "comment"
 msgstr "Kommentar"
 
-#: models/participant.py:129
+#: models/participant.py:88
 msgid "deregistered at"
 msgstr "Abgemeldet am"
 
-#: models/participant.py:135
+#: models/participant.py:90
 msgid "created at"
 msgstr "Erstellt am"
 
-#: models/participant.py:140
+#: models/participant.py:92
 msgid "updated at"
 msgstr "Aktualisiert am"
 
-#: models/participant.py:145
+#: models/participant.py:95
 msgid "participant"
 msgstr "Teilnehmer"
 
-#: models/participant.py:146
+#: models/participant.py:96
 msgid "participants"
 msgstr "Teilnehmer"
 
-#: models/troop.py:14
+#: models/troop.py:13
 msgid "number"
 msgstr "Nummer"
 
-#: models/troop.py:26
+#: models/troop.py:19
 msgid "troops"
 msgstr "Gruppierungen"
 
-#: templates/participant/index.html:5
-msgid "Hello"
-msgstr "Hallo"
+#: templates/troop/email_form.html:6
+msgid "E-Mail to participants"
+msgstr "E-Mail an Teilnehmer"
+
+#: templates/troop/email_form.html:12
+msgid ""
+"Only use this form to send messages strictly related to the organization of "
+"the camp (according to GDPR / DSGVO)"
+msgstr ""
+
+#: templates/troop/email_form.html:13
+msgid ""
+"Warning: Only participants registered with an e-mail address will receive "
+"your message"
+msgstr ""
+
+#: templates/troop/email_form.html:47
+msgid "Send"
+msgstr "Senden"
+
+#: templates/troop/index.html:12
+msgid "CSV Export of the participants"
+msgstr "CSV-Export der Teilnehmer"
+
+#: templates/troop/nami_search_form.html:7
+#: templates/troop/participant_form.html:7
+#: templates/troop/participant_list.html:49
+msgid "Neue Anmeldung"
+msgstr ""
+
+#: templates/troop/nami_search_form.html:9
+#: templates/troop/participant_form.html:9
+msgid "Anmeldung ändern"
+msgstr ""
+
+#: templates/troop/nami_search_form.html:16
+msgid "All participant must have a NaMi number (for assurance reasons)."
+msgstr ""
+
+#: templates/troop/nami_search_form.html:49
+msgid "Skip"
+msgstr "Überspringen"
+
+#: templates/troop/nami_search_form.html:52
+msgid "Search"
+msgstr "Suchen"
+
+#: templates/troop/participant_form.html:48
+msgid "Save and add another"
+msgstr "Sichern und neu hinzufügen"
+
+#: templates/troop/participant_form.html:52
+msgid "Close"
+msgstr "Schließen"
+
+#: templates/troop/participant_form.html:56
+msgid "Save"
+msgstr "Speichern"
+
+#: templates/troop/participant_list.html:5
+msgid "Aktuelle Anmeldungen"
+msgstr ""
+
+#: templates/troop/participant_list.html:9
+msgid "Noch keine Anmeldung."
+msgstr ""
+
+#: templates/troop/participant_list.html:17
+msgid "Tage am Lager"
+msgstr ""
+
+#: templates/troop/participant_list.html:34
+msgid "Leader"
+msgstr "Leiter"
+
+#: templates/troop/participant_list.html:50
+msgid "CSV Export"
+msgstr "CSV-Export"
+
+#: views.py:73 views.py:117
+msgid "participant.saved"
+msgstr "Teilnehmer"
+
+#: views.py:79 views.py:126 views.py:226
+msgid "Please correct the error below."
+msgstr "Bitte korrigiere die folgenden Fehler."
+
+#: views.py:175
+msgid "NaMi search succeeded. Please complete the participant details."
+msgstr ""
+
+#: views.py:182
+msgid ""
+"NaMi member not found within your troop. Please complete the participant "
+"details."
+msgstr ""
+
+#: views.py:191
+msgid ""
+"NaMi search unexpected failure: {}. Please complete the participant details."
+msgstr ""
+
+#: views.py:207
+msgid "Participant already registered with another troop."
+msgstr "Teilnehmer bereits in einer anderen Gruppierung registriert."
+
+#: views.py:215
+msgid "Participant already registered."
+msgstr "Teilnehmer bereits registriert."
+
+#: views.py:335
+msgid "Email was sent to %(count)d participant."
+msgid_plural "Email was sent to %(count)d participants."
+msgstr[0] "E-Mail wurde an %(count)d Teilnehmer verschickt."
+msgstr[1] "E-Mail wurde an %(count)d Teilnehmer verschickt."

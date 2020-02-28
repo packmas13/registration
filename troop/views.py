@@ -1,17 +1,18 @@
-from django.contrib.auth.mixins import AccessMixin
-from django.urls import reverse
-from django.views import generic
-from django.contrib import messages
-from django.utils.translation import gettext_lazy as _
 from django.db.models import Count
 from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth.mixins import AccessMixin
+from django.core import mail
 from django.http import HttpResponse
-
+from django.urls import reverse
+from django.utils.translation import ngettext, gettext_lazy as _
+from django.views import generic
 from urllib.parse import urlencode
+
 import csv
 
 from .models import Participant, Attendance, Troop
-from .forms import CreateParticipantForm, NamiSearchForm
+from .forms import CreateParticipantForm, NamiSearchForm, SendEmailForm
 
 from nami import Nami, MemberNotFound
 
@@ -280,3 +281,57 @@ class CsvParticipantExport(OnlyTroopManagerMixin, generic.View):
                 yield 1 if field in days else ""
             else:
                 yield getattr(participant, field)
+
+
+class SendEmailView(OnlyTroopManagerMixin, generic.FormView):
+    template_name = "troop/email_form.html"
+    form_class = SendEmailForm
+
+    def get_form_kwargs(self, **kwargs):
+        form_kwargs = super().get_form_kwargs(**kwargs)
+        form_kwargs["user"] = self.request.user
+        form_kwargs["troop"] = self.request.troop
+        return form_kwargs
+
+    def get_success_url(self):
+        kwargs = {"troop_number": self.request.troop.number}
+        return reverse("troop:email", kwargs=kwargs)
+
+    def form_valid(self, form):
+        sender = form.cleaned_data["sender"]
+        reply_to = form.cleaned_data["reply_to"]
+        section = form.cleaned_data["section"]
+        status = form.cleaned_data["status"]
+        subject = form.cleaned_data["subject"]
+        message = form.cleaned_data["message"]
+
+        participants = self.request.troop.participant_set.exclude(email="")
+
+        if section != "all":
+            participants = participants.filter(age_section=section)
+
+        if status != "all":
+            participants = participants.filter(is_leader=(status == "leaders"))
+
+        headers = {"Reply-To": reply_to}
+
+        emails = [
+            mail.EmailMessage(subject, message, sender, [p.email], headers=headers,)
+            for p in participants
+        ]
+
+        connection = mail.get_connection()
+        connection.send_messages(emails)
+
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            ngettext(
+                "Email was sent to %(count)d participant.",
+                "Email was sent to %(count)d participants.",
+                len(emails),
+            )
+            % {"count": len(emails),},
+        )
+
+        return super().form_valid(form)
