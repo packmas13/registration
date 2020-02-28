@@ -28,7 +28,7 @@ test: ## Run the tests
 	$(manage) test
 
 lint:
-	pipenv run black --target-version=py37 .
+	pipenv run black --target-version=py37 --exclude migrations/ .
 
 lintcheck:
 	# Fail if the code should be linted (fix it with "make lint")
