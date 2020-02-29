@@ -53,21 +53,16 @@ class Client(object):
             elif key == "geschlecht" and value in genders:
                 data["gender"] = genders[value]
 
+        # Not available on search results:
         # :troop: scout troop to which the participant belongs
         # :age_section: section to which the participant belongs
         # :is_leader: true if participant is a scout leader
-        # :attendance: dates present on the camp site
         # :diet: special diet requirements like vegetarian
         # :medication: information about diseases and drugs
+
+        # Not revelant from the NaMi:
+        # :attendance: dates present on the camp site
         # :comment: additional information
-
-        ## :gender: gender
-        ## :birthday: date of birth
-        ## :first_name: given name
-        ## :last_name: surname
-        ## :email: email address
-        ## :nami: scouting membership number (nami)
-
         # :deregistered_at: timestamp of deregistration (if unregistered)
         # :created_at: timestamp of creation of this record
         # :updated_at: timestamp of last update to this record
