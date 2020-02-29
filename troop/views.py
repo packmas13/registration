@@ -120,7 +120,7 @@ class CreateParticipantView(OnlyTroopManagerMixin, generic.CreateView):
 
         kwargs = {"troop": self.request.troop.number}
         if self.request.POST.get("_addanother"):
-            return reverse("troop:participant.create", kwargs=kwargs)
+            return reverse("troop:participant.nami-search", kwargs=kwargs)
         return reverse("troop:participant.index", kwargs=kwargs)
 
     def form_invalid(self, form):

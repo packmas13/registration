@@ -87,7 +87,8 @@ class CreateParticipantTest(TestCase):
         )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(
-            response.url, reverse("troop:participant.create", kwargs={"troop": 130000})
+            response.url,
+            reverse("troop:participant.nami-search", kwargs={"troop": 130000}),
         )
 
     def test_get_form_prefilled(self):
