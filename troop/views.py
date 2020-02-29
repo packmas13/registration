@@ -88,7 +88,27 @@ class CreateParticipantView(OnlyTroopManagerMixin, generic.CreateView):
     def get_form_kwargs(self, **kwargs):
         form_kwargs = super().get_form_kwargs(**kwargs)
         form_kwargs["troop"] = self.request.troop
+
+        if not form_kwargs["initial"]:
+            form_kwargs["initial"] = self._prefilled_initial(self.request.GET)
+
         return form_kwargs
+
+    def _prefilled_initial(self, params):
+        initial = {}
+        prefillable = [
+            "first_name",
+            "last_name",
+            "email",
+            "nami",
+            "birthday",
+            "gender",
+        ]
+        for key in prefillable:
+            if key not in params:
+                continue
+            initial[key] = params[key]
+        return initial
 
     def get_success_url(self):
         messages.add_message(self.request, messages.SUCCESS, _("participant.saved"))

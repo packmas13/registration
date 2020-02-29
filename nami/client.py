@@ -2,9 +2,9 @@ import json
 from .session import Session
 
 
-
 class MemberNotFound(Exception):
     pass
+
 
 class Client(object):
     def __init__(self, config, session_cls=Session):

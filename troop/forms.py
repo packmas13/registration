@@ -14,9 +14,11 @@ class CreateParticipantForm(ModelForm):
     def __init__(self, troop, *args, **kwargs):
         super(CreateParticipantForm, self).__init__(*args, **kwargs)
 
-        if not self.initial:
-            self.initial["gender"] = None
-            self.initial["age_section"] = "none_selected"
+        if "attendance" not in self.initial:
+            self.initial["gender"] = self.initial.get("gender", None)
+            self.initial["age_section"] = self.initial.get(
+                "age_section", "none_selected"
+            )
             self.initial["attendance"] = Attendance.objects.filter(is_main=True).all()
 
         self.initial["troop"] = troop

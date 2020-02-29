@@ -84,6 +84,14 @@ class CreateParticipantTest(TestCase):
             response.url, reverse("troop:participant.create", kwargs={"troop": 130000})
         )
 
+    def test_get_form_prefilled(self):
+        response = self.client.get(
+            reverse("troop:participant.create", kwargs={"troop": 130000}),
+            data={"first_name": "Trick"},
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'value="Trick"')
+
 
 class IndexParticipantTest(TestCase):
     fixtures = ["troop_130000.json"]
