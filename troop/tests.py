@@ -181,6 +181,20 @@ class NamiSearchTest(TestCase):
         self.assertEqual(1, len(m))
         self.assertEqual(messages.WARNING, m[0].level)
 
+    def test_post_form_already_in_db(self):
+        response = self.client.post(
+            reverse("troop:participant.nami-search", kwargs={"troop": 130000}),
+            {"nami": "130001"},
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(
+            response.url,
+            reverse("troop:participant.edit", kwargs={"troop": 130000, "pk": 1}),
+        )
+        m = list(messages.get_messages(response.wsgi_request))
+        self.assertEqual(1, len(m))
+        self.assertEqual(messages.INFO, m[0].level)
+
 
 class IndexParticipantTest(TestCase):
     fixtures = ["troop_130000.json"]

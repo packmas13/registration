@@ -150,8 +150,22 @@ class NamiSearchView(OnlyTroopManagerMixin, generic.FormView):
         )
 
     def form_valid(self, form):
+        kwargs = {"troop": self.request.troop.number}
         data = {"nami": form.cleaned_data["nami"]}
-        # TODO check if participant already registered
+
+        try:
+            p = Participant.objects.filter(**data).get()
+            # TODO check if participant is right troop
+
+            messages.add_message(
+                self.request, messages.INFO, _("Participant already registered."),
+            )
+
+            kwargs["pk"] = p.id
+            self.success_url = reverse("troop:participant.edit", kwargs=kwargs)
+            return super().form_valid(form)
+        except Participant.DoesNotExist:
+            pass
 
         try:
             nami = self.nami()
@@ -172,7 +186,6 @@ class NamiSearchView(OnlyTroopManagerMixin, generic.FormView):
                 _("NaMi search failed. Please complete the participant details."),
             )
 
-        kwargs = {"troop": self.request.troop.number}
         self.success_url = reverse("troop:participant.create", kwargs=kwargs)
         self.success_url += "?" + urlencode(data)
 
