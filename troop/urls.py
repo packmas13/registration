@@ -19,4 +19,9 @@ urlpatterns = [
         views.CreateParticipantView.as_view(),
         name="participant.create",
     ),
+    path(
+        "<int:troop>/participant/nami-search/",
+        views.NamiSearchView.as_view(),
+        name="participant.nami-search",
+    ),
 ]

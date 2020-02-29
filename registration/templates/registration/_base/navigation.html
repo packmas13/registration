@@ -7,7 +7,7 @@
         {% include 'registration/_base/navigation_link.html' with href=href text="Übersicht" %}
         <!-- dates, number of registrations, prices...-->
 
-        {% url 'troop:participant.create' troop=troop.number as href %}
+        {% url 'troop:participant.nami-search' troop=troop.number as href %}
         {% include 'registration/_base/navigation_link.html' with href=href text="Neue Anmeldung" %}
         <!-- NaMi import, manual import-->
 

@@ -1,1 +1,1 @@
-from .client import Client as Nami
+from .client import Client as Nami, MemberNotFound

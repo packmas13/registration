@@ -5,6 +5,7 @@ from django.forms import (
     CheckboxSelectMultiple,
     RadioSelect,
     DateInput,
+    Form,
 )
 
 from .models import Attendance, Participant, Troop
@@ -54,3 +55,7 @@ class CreateParticipantForm(ModelForm):
             "diet": CheckboxSelectMultiple,
             "comment": Textarea(attrs={"cols": 32, "rows": 4}),
         }
+
+
+class NamiSearchForm(Form):
+    nami = Participant._meta.get_field("nami").formfield()

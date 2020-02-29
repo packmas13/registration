@@ -1,9 +1,11 @@
 class Session(object):
-    def __init__(self, responses):
-        self.i = 0
-        self.responses = responses
+    response = None
+    exception = None
+
+    def __init__(self, config):
+        pass
 
     def get(self, uri, params=None):
-        r = self.responses[self.i]
-        self.i += 1
-        return r
+        if self.exception:
+            raise self.exception
+        return self.response

@@ -151,6 +151,10 @@ LOCALE_PATHS = [
 STATIC_URL = "/static/"
 STATIC_DIR = os.path.join(BASE_DIR, "static")
 
+NAMI_USERNAME = os.environ.get("NAMI_USERNAME")
+NAMI_PASSWORD = os.environ.get("NAMI_PASSWORD")
+NAMI_SESSION = "nami.session"
+
 if "DJANGO_PRODUCTION" in os.environ:
     ALLOWED_HOSTS = [""]
     DEBUG = False

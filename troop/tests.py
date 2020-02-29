@@ -1,6 +1,12 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
+from django.contrib import messages
+
+from nami import Nami, MemberNotFound
+from nami.mock import Session as NamiMock
+
+from .views import NamiSearchView
 
 
 class IndexTest(TestCase):
@@ -91,6 +97,89 @@ class CreateParticipantTest(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'value="Trick"')
+
+
+class NamiSearchTest(TestCase):
+    fixtures = ["troop_130000.json"]
+
+    def setUp(self):
+        self.user = get_user_model().objects.get(email="user@test")
+        self.client.force_login(self.user)
+        self.original_nami_method = NamiSearchView.nami
+        self.nami_mock = Nami({}, session_cls=NamiMock)
+        self.mocked_nami_method = lambda s: self.nami_mock
+
+    def tearDown(self):
+        NamiSearchView.nami = self.original_nami_method
+
+    def test_get_form(self):
+        response = self.client.get(
+            reverse("troop:participant.nami-search", kwargs={"troop": 130000})
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_post_empty_form(self):
+        response = self.client.post(
+            reverse("troop:participant.nami-search", kwargs={"troop": 130000})
+        )
+        self.assertEqual(response.status_code, 422)
+
+    def test_post_form(self):
+        self.nami_mock.session.response = [
+            {
+                "entries_nachname": "Duck",
+                "entries_vorname": "Trick",
+                "entries_mitgliedsNummer": 12345,
+            }
+        ]
+        NamiSearchView.nami = self.mocked_nami_method
+
+        response = self.client.post(
+            reverse("troop:participant.nami-search", kwargs={"troop": 130000}),
+            {"nami": "12345"},
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(
+            response.url,
+            reverse("troop:participant.create", kwargs={"troop": 130000})
+            + "?last_name=Duck&first_name=Trick&nami=12345",
+        )
+        m = list(messages.get_messages(response.wsgi_request))
+        self.assertEqual(1, len(m))
+        self.assertEqual(messages.SUCCESS, m[0].level)
+
+    def test_post_form_empty_nami_settings(self):
+        response = self.client.post(
+            reverse("troop:participant.nami-search", kwargs={"troop": 130000}),
+            {"nami": "12345"},
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(
+            response.url,
+            reverse("troop:participant.create", kwargs={"troop": 130000})
+            + "?nami=12345",
+        )
+        m = list(messages.get_messages(response.wsgi_request))
+        self.assertEqual(1, len(m))
+        self.assertEqual(messages.WARNING, m[0].level)
+
+    def test_post_not_found(self):
+        self.nami_mock.session.exception = MemberNotFound
+        NamiSearchView.nami = self.mocked_nami_method
+
+        response = self.client.post(
+            reverse("troop:participant.nami-search", kwargs={"troop": 130000}),
+            {"nami": "12345"},
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(
+            response.url,
+            reverse("troop:participant.create", kwargs={"troop": 130000})
+            + "?nami=12345",
+        )
+        m = list(messages.get_messages(response.wsgi_request))
+        self.assertEqual(1, len(m))
+        self.assertEqual(messages.WARNING, m[0].level)
 
 
 class IndexParticipantTest(TestCase):

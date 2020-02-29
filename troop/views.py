@@ -4,9 +4,14 @@ from django.views import generic
 from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
 from django.db.models import Count
+from django.conf import settings
+
+from urllib.parse import urlencode
 
 from .models import Participant
-from .forms import CreateParticipantForm
+from .forms import CreateParticipantForm, NamiSearchForm
+
+from nami import Nami
 
 
 class OnlyTroopManagerMixin(AccessMixin):
@@ -117,6 +122,61 @@ class CreateParticipantView(OnlyTroopManagerMixin, generic.CreateView):
         if self.request.POST.get("_addanother"):
             return reverse("troop:participant.create", kwargs=kwargs)
         return reverse("troop:participant.index", kwargs=kwargs)
+
+    def form_invalid(self, form):
+        messages.add_message(
+            self.request, messages.ERROR, _("Please correct the error below.")
+        )
+
+        response = super().form_invalid(form)
+        response.status_code = 422  # Unprocessable Entity
+        return response
+
+
+class NamiSearchView(OnlyTroopManagerMixin, generic.FormView):
+    form_class = NamiSearchForm
+    template_name = "troop/nami_search_form.html"
+
+    def nami(self):
+        if not settings.NAMI_USERNAME or not settings.NAMI_PASSWORD:
+            raise Exception("empty nami settings")
+
+        return Nami(
+            {
+                "username": settings.NAMI_USERNAME,
+                "password": settings.NAMI_PASSWORD,
+                "session_file": settings.NAMI_SESSION,
+            }
+        )
+
+    def form_valid(self, form):
+        data = {"nami": form.cleaned_data["nami"]}
+        # TODO check if participant already registered
+
+        try:
+            nami = self.nami()
+            member = nami.find_member(
+                data["nami"], grp_number=self.request.troop.number
+            )
+            data = nami.member_normalized(member)
+
+            messages.add_message(
+                self.request,
+                messages.SUCCESS,
+                _("NaMi search succeeded. Please complete the participant details."),
+            )
+        except:  # noqa: E722
+            messages.add_message(
+                self.request,
+                messages.WARNING,
+                _("NaMi search failed. Please complete the participant details."),
+            )
+
+        kwargs = {"troop": self.request.troop.number}
+        self.success_url = reverse("troop:participant.create", kwargs=kwargs)
+        self.success_url += "?" + urlencode(data)
+
+        return super().form_valid(form)
 
     def form_invalid(self, form):
         messages.add_message(
