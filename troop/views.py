@@ -155,7 +155,17 @@ class NamiSearchView(OnlyTroopManagerMixin, generic.FormView):
 
         try:
             p = Participant.objects.filter(**data).get()
-            # TODO check if participant is right troop
+
+            if p.troop_id != self.request.troop.pk:
+                messages.add_message(
+                    self.request,
+                    messages.ERROR,
+                    _("Participant already registered with another troop."),
+                )
+
+                response = super().form_invalid(form)
+                response.status_code = 422  # Unprocessable Entity
+                return response
 
             messages.add_message(
                 self.request, messages.INFO, _("Participant already registered."),
