@@ -6,4 +6,12 @@
 {% block content %}
 <em>{% trans "Wichtige Infos & sonstiges Zeug" %}</em>
 
+{% if not user.is_authenticated %}
+<div class="mt-4">
+    <a href="{% url "login" %}" class="inline-block bg-green-600 text-white px-4 py-1 cursor-pointer uppercase">
+        {% trans "Log in" %}
+    </a>
+</div>
+{% endif %}
+
 {% endblock %}
