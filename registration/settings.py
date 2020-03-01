@@ -22,6 +22,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 WEBSITE_URL = "http://localhost:8000"
 
 
+EMERGENCY_PHONE = "+49 170 123-456-789"
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -50,6 +53,7 @@ INSTALLED_APPS = [
     "account.apps.AccountConfig",
     "troop.apps.TroopConfig",
     "payment.apps.PaymentConfig",
+    "management.apps.ManagementConfig",
     "registration",
     "nami",
 ]
@@ -121,6 +125,9 @@ LOGOUT_REDIRECT_URL = "/"
 
 # Email
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+DEFAULT_FROM_EMAIL = "root" + "@" + WEBSITE_DOMAIN
+DO_NOT_REPLY_EMAIL = "donotreply" + "@" + WEBSITE_DOMAIN
+SUPPORT_EMAIL = "root" + "@" + WEBSITE_DOMAIN
 
 
 # Internationalization

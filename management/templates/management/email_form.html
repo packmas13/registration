@@ -1,0 +1,59 @@
+{% extends "registration/base.html" %}
+{% load i18n %}
+{% load tags %}
+{% load widget_tweaks %}
+
+{% block content_title %}
+{% trans "Support" %}
+{% endblock %}
+{% block content %}
+
+{% setting "SUPPORT_EMAIL" as SUPPORT_EMAIL %}
+{% setting "EMERGENCY_PHONE" as EMERGENCY_PHONE %}
+
+<p class="mb-4" xmlns="http://www.w3.org/1999/html">
+    {% trans "If you have discovered a technical problem and feel comfortable with GitHub, " %}
+    <a href="https://github.com/packmas13/registration/issues">{% trans " feel free to open an issue" %}</a>. <br/>
+    {% trans "In case you need to send an attachment, write an e-mail to " %}
+    <a href="mailto:{{ SUPPORT_EMAIL }}">{{ SUPPORT_EMAIL }}</a>. <br/>
+    {% trans "In case of an emergency, call " %}
+    <a href="tel:{{ EMERGENCY_PHONE }}">{{ EMERGENCY_PHONE }}</a>. <br/>
+</p>
+
+<div class="text-center">
+    {{ form.non_field_errors }}
+</div>
+
+<form method="post" class="max-w-sm mx-auto">{% csrf_token %}
+    {% for hidden_field in form.hidden_fields %}
+        {{ hidden_field.errors }}
+        {{ hidden_field }}
+    {% endfor %}
+
+    {% with 'checkbox radio' as inline_types %}
+    {% for field in form.visible_fields %}
+        <div class="form-row mb-3">
+            {{ field.label_tag }}
+            {% if field.field.required %}<span title="Pflichtfeld" class="text-gray-600">*</span>{% endif %}
+            {% if field.errors %}
+                {{ field.errors }}
+            {% else %}
+                <br>
+            {% endif %}
+            {% if field.field.widget.input_type in inline_types.split %}
+                {{ field }}
+            {% else %}
+                {{ field|add_class:"w-full" }}
+            {% endif %}
+        </div>
+    {% endfor %}
+    {% endwith %}
+
+    <div class="text-center">
+        <button type="submit" class="bg-green-600 text-white px-4 py-1 cursor-pointer uppercase">
+            {% trans "Send" %}
+        </button>
+    </div>
+</form>
+
+{% endblock %}

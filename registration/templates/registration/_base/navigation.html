@@ -26,12 +26,13 @@
     {% include 'registration/_base/navigation_link.html' with to="password_change_form" text="Emergency management" %}
 </div>
 
-{% if request.user.is_superuser %}
 <h3 class="uppercase text-sm text-gray-800 mt-6">{% trans "Verwaltung" %}</h3>
 <div class="my-2">
+    {% include 'registration/_base/navigation_link.html' with to="management:support" text="Support" %}
+{% if request.user.is_superuser %}
     {% include 'registration/_base/navigation_link.html' with to="admin:index" text="Django-Verwaltung" %}
-</div>
 {% endif %}
+</div>
 
 <h3 class="uppercase text-sm text-gray-800 mt-6">{{ user.email }}</h3>
 <div class="my-2">
