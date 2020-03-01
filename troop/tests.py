@@ -180,7 +180,7 @@ class NamiSearchTest(TestCase):
         )
         m = list(messages.get_messages(response.wsgi_request))
         self.assertEqual(1, len(m))
-        self.assertEqual(messages.WARNING, m[0].level)
+        self.assertEqual(messages.INFO, m[0].level)
 
     def test_post_form_already_in_db(self):
         response = self.client.post(

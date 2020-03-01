@@ -11,7 +11,7 @@ from urllib.parse import urlencode
 from .models import Participant
 from .forms import CreateParticipantForm, NamiSearchForm
 
-from nami import Nami
+from nami import Nami, MemberNotFound
 
 
 class OnlyTroopManagerMixin(AccessMixin):
@@ -133,13 +133,17 @@ class CreateParticipantView(OnlyTroopManagerMixin, generic.CreateView):
         return response
 
 
+class EmptyNamiCredentials(Exception):
+    pass
+
+
 class NamiSearchView(OnlyTroopManagerMixin, generic.FormView):
     form_class = NamiSearchForm
     template_name = "troop/nami_search_form.html"
 
     def nami(self):
         if not settings.NAMI_USERNAME or not settings.NAMI_PASSWORD:
-            raise Exception("empty nami settings")
+            raise EmptyNamiCredentials
 
         return Nami(
             {
@@ -171,11 +175,24 @@ class NamiSearchView(OnlyTroopManagerMixin, generic.FormView):
                 messages.SUCCESS,
                 _("NaMi search succeeded. Please complete the participant details."),
             )
-        except:  # noqa: E722
+        except MemberNotFound:
+            messages.add_message(
+                self.request,
+                messages.INFO,
+                _(
+                    "NaMi member not found within your troop. Please complete the participant details."
+                ),
+            )
+        except Exception as e:
+            # TODO some login to inform the admin?
             messages.add_message(
                 self.request,
                 messages.WARNING,
-                _("NaMi search failed. Please complete the participant details."),
+                _(
+                    "NaMi search unexpected failure: {}. Please complete the participant details.".format(
+                        e.__class__.__name__
+                    )
+                ),
             )
 
         self.success_url = reverse("troop:participant.create", kwargs=kwargs)
