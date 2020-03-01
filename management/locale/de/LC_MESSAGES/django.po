@@ -1,0 +1,78 @@
+# Translation of the management app
+# Copyright (C) 2020 Simon Ellmann
+# This file is distributed under the same license as the registration package.
+# Simon Ellmann <simon.ellmann@tum.de>, 2020.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-03-29 19:53+0200\n"
+"PO-Revision-Date: 2020-03-02 13:36+0100\n"
+"Last-Translator: Simon Ellmann <simon.ellmann@tum.de>\n"
+"Language-Team: NOREPLY <noreply@example.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: forms.py:8
+msgid "Participant management"
+msgstr "Teilnehmermanagement"
+
+#: forms.py:9
+msgid "Feedback / Suggestion"
+msgstr "Feedback / Anregung"
+
+#: forms.py:10
+msgid "Bug report"
+msgstr "Fehlermeldung"
+
+#: forms.py:11
+msgid "Other"
+msgstr "Sonstiges"
+
+#: forms.py:14
+msgid "Sender"
+msgstr "Absender"
+
+#: forms.py:16
+msgid "Subject"
+msgstr "Betreff"
+
+#: forms.py:19
+msgid "Message"
+msgstr "Nachricht"
+
+#: templates/management/email_form.html:7
+msgid "Support"
+msgstr "Support"
+
+#: templates/management/email_form.html:15
+msgid ""
+"If you have discovered a technical problem and feel comfortable with GitHub, "
+msgstr ""
+"Wenn du ein technisches Problem entdeckt hast und dich mit GitHub auskennst, "
+
+#: templates/management/email_form.html:16
+msgid " feel free to open an issue"
+msgstr "mach hier einen Issue auf"
+
+#: templates/management/email_form.html:17
+msgid "In case you need to send an attachment, write an e-mail to "
+msgstr "Falls du uns einen Anhang schicken willst, schreibe eine E-Mail an "
+
+#: templates/management/email_form.html:19
+msgid "In case of an emergency, call "
+msgstr "Im Notfall, wende dich an "
+
+#: templates/management/email_form.html:54
+msgid "Send"
+msgstr "Senden"
+
+#: views.py:22
+msgid "E-mail was sent."
+msgstr "E-Mail wurde gesendet."
+

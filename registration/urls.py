@@ -27,6 +27,8 @@ urlpatterns = [
     path("accounts/", include("account.urls")),
     # troop management
     path("troop/", include("troop.urls")),
+    # general management
+    path("management/", include("management.urls")),
     # landing page
     path(
         "", TemplateView.as_view(template_name="registration/index.html"), name="index"
