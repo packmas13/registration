@@ -32,6 +32,32 @@ class OnlyTroopManagerMixin(AccessMixin):
 class IndexView(OnlyTroopManagerMixin, generic.TemplateView):
     template_name = "troop/index.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        participant_distribution = (
+            self.request.troop.participant_set.all()
+            .values("age_section")
+            .annotate(total=Count("age_section"))
+            .order_by(Participant.age_section_order())
+        )
+
+        sections = {
+            "": _("no section"),
+            "beaver": _("Beavers"),
+            "cub": _("Cubs"),
+            "scout": _("Scouts"),
+            "venturer": _("Venturers"),
+            "rover": _("Rover"),
+        }
+
+        participant_distribution = [
+            (sections[x["age_section"]], x["total"]) for x in participant_distribution
+        ]
+
+        context["participant_distribution"] = participant_distribution
+
+        return context
+
 
 class IndexParticipantView(OnlyTroopManagerMixin, generic.ListView):
     template_name = "participant/index.html"
