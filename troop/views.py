@@ -155,25 +155,7 @@ class NamiSearchView(OnlyTroopManagerMixin, generic.FormView):
 
         try:
             p = Participant.objects.filter(**data).get()
-
-            if p.troop_id != self.request.troop.pk:
-                messages.add_message(
-                    self.request,
-                    messages.ERROR,
-                    _("Participant already registered with another troop."),
-                )
-
-                response = super().form_invalid(form)
-                response.status_code = 422  # Unprocessable Entity
-                return response
-
-            messages.add_message(
-                self.request, messages.INFO, _("Participant already registered."),
-            )
-
-            kwargs["pk"] = p.id
-            self.success_url = reverse("troop:participant.edit", kwargs=kwargs)
-            return super().form_valid(form)
+            return self._redirect_to_participant(p, form)
         except Participant.DoesNotExist:
             pass
 
@@ -199,6 +181,28 @@ class NamiSearchView(OnlyTroopManagerMixin, generic.FormView):
         self.success_url = reverse("troop:participant.create", kwargs=kwargs)
         self.success_url += "?" + urlencode(data)
 
+        return super().form_valid(form)
+
+    def _redirect_to_participant(self, participant, form):
+        if participant.troop_id != self.request.troop.pk:
+            messages.add_message(
+                self.request,
+                messages.ERROR,
+                _("Participant already registered with another troop."),
+            )
+
+            response = super().form_invalid(form)
+            response.status_code = 409  # Conflict
+            return response
+
+        messages.add_message(
+            self.request, messages.INFO, _("Participant already registered."),
+        )
+
+        self.success_url = reverse(
+            "troop:participant.edit",
+            kwargs={"troop": self.request.troop.number, "pk": participant.id},
+        )
         return super().form_valid(form)
 
     def form_invalid(self, form):

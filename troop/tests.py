@@ -201,7 +201,7 @@ class NamiSearchTest(TestCase):
             reverse("troop:participant.nami-search", kwargs={"troop": 130000}),
             {"nami": "130002"},
         )
-        self.assertEqual(response.status_code, 422)
+        self.assertEqual(response.status_code, 409)
         m = list(messages.get_messages(response.wsgi_request))
         self.assertEqual(1, len(m))
         self.assertEqual(messages.ERROR, m[0].level)
