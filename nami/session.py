@@ -19,6 +19,14 @@ class ResponseSuccessError(Exception):
     pass
 
 
+class AuthenticationError(Exception):
+    """
+    The login did not succeed
+    """
+
+    pass
+
+
 class SessionExpiredError(Exception):
     """
     The session is expired
@@ -93,16 +101,14 @@ class Session(object):
         url = self.config["server"] + self.config["auth_url"]
         r = self.s.post(url, data=payload)
         if r.status_code != 200:
-            raise HTTPError(
-                "authentication failure: unexpected status Code: {}".format(
-                    r.status_code
-                )
+            raise AuthenticationError(
+                "unexpected HTTP status Code: {}".format(r.status_code)
             )
 
         rjson = r.json()
         if rjson["statusCode"]:
-            raise ResponseTypeError(
-                "authentication failure: non-null statusCode ({}): {} - {}".format(
+            raise AuthenticationError(
+                "non-null JSON statusCode ({}): {} - {}".format(
                     rjson["statusCode"], rjson["statusMessage"], rjson
                 )
             )
