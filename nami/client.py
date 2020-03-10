@@ -17,7 +17,7 @@ class Client(object):
 
         data = self.session.get(
             "/ica/rest/nami/search-multi/result-list",
-            {"searchedValues": json.JSONEncoder().encode(search)},
+            {"searchedValues": json.JSONEncoder().encode(search), "limit": 1},
         )
         if not data:
             raise MemberNotFound
