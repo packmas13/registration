@@ -10,3 +10,5 @@ flake8 = "~=3.0"
 [packages]
 Django = "~=3.0"
 django-widget-tweaks = "~=1.4"
+requests = "~=2.23"
+atomicwrites = "~=1.3"

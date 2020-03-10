@@ -47,5 +47,49 @@
     "model": "troop.troop",
     "pk": 3,
     "fields": { "number": 131700, "name": "Bezirk Ebersberg" }
+  },
+  {
+    "model": "troop.participant",
+    "pk": 1,
+    "fields": {
+      "troop": 1,
+      "first_name": "Vor",
+      "last_name": "Nach",
+      "gender": "male",
+      "birthday": "1900-01-01",
+      "email": "",
+      "nami": 130001,
+      "age_section": "",
+      "is_leader": true,
+      "medication": "",
+      "comment": "",
+      "deregistered_at": null,
+      "created_at": "2020-02-27T10:46:40.366Z",
+      "updated_at": "2020-02-27T11:02:24.884Z",
+      "attendance": [1],
+      "diet": []
+    }
+  },
+  {
+    "model": "troop.participant",
+    "pk": 2,
+    "fields": {
+      "troop": 2,
+      "first_name": "Other",
+      "last_name": "Participant",
+      "gender": "male",
+      "birthday": "1900-01-01",
+      "email": "",
+      "nami": 130002,
+      "age_section": "",
+      "is_leader": true,
+      "medication": "",
+      "comment": "",
+      "deregistered_at": null,
+      "created_at": "2020-02-27T10:46:40.366Z",
+      "updated_at": "2020-02-27T11:02:24.884Z",
+      "attendance": [1],
+      "diet": []
+    }
   }
 ]

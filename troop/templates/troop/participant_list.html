@@ -46,6 +46,6 @@
 {% endif %}
 
 <div class="mt-2">
-	<a href="{% url "troop:participant.create" troop=request.troop.number %}" class="bg-green-600 text-white px-4 py-1 cursor-pointer uppercase">{% trans "Neue Anmeldung" %}</a>
+	<a href="{% url "troop:participant.nami-search" troop=request.troop.number %}" class="bg-green-600 text-white px-4 py-1 cursor-pointer uppercase">{% trans "Neue Anmeldung" %}</a>
 </div>
 {% endblock %}

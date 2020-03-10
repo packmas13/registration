@@ -5,6 +5,7 @@ from django.forms import (
     CheckboxSelectMultiple,
     RadioSelect,
     DateInput,
+    Form,
 )
 
 from .models import Attendance, Participant, Troop
@@ -14,9 +15,11 @@ class CreateParticipantForm(ModelForm):
     def __init__(self, troop, *args, **kwargs):
         super(CreateParticipantForm, self).__init__(*args, **kwargs)
 
-        if not self.initial:
-            self.initial["gender"] = None
-            self.initial["age_section"] = "none_selected"
+        if "attendance" not in self.initial:
+            self.initial["gender"] = self.initial.get("gender", None)
+            self.initial["age_section"] = self.initial.get(
+                "age_section", "none_selected"
+            )
             self.initial["attendance"] = Attendance.objects.filter(is_main=True).all()
 
         self.initial["troop"] = troop
@@ -52,3 +55,7 @@ class CreateParticipantForm(ModelForm):
             "diet": CheckboxSelectMultiple,
             "comment": Textarea(attrs={"cols": 32, "rows": 4}),
         }
+
+
+class NamiSearchForm(Form):
+    nami = Participant._meta.get_field("nami").formfield()
