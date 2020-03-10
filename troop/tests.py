@@ -237,3 +237,26 @@ class IndexParticipantTest(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Trick")
+
+
+class ParticipantExportTest(TestCase):
+    fixtures = ["troop_130000.json"]
+
+    def setUp(self):
+        self.user = get_user_model().objects.get(email="user@test")
+        self.client.force_login(self.user)
+
+    def test_export(self):
+        response = self.client.get(
+            reverse("troop:participant.export", kwargs={"troop": 130000})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["content-type"], "text/csv")
+        self.assertEqual(
+            response["content-disposition"],
+            'attachment; filename="packmas13_130000.csv"',
+        )
+        self.assertContains(response, "Vor")
+        self.assertContains(response, "Nach")
+        self.assertContains(response, "no section")
+        self.assertContains(response, "2020-02-20")

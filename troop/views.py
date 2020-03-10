@@ -5,27 +5,34 @@ from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
 from django.db.models import Count
 from django.conf import settings
+from django.core.exceptions import PermissionDenied
+from django.http import HttpResponse
 
 from urllib.parse import urlencode
+import csv
 
-from .models import Participant
+from .models import Participant, Attendance
 from .forms import CreateParticipantForm, NamiSearchForm
+from .templatetags.troop_extras import section_trans
 
 from nami import Nami, MemberNotFound
+
+
+def user_managed_troop(request, troop_number):
+    if not request.user.is_authenticated:
+        return None
+
+    if not troop_number:
+        return None
+
+    return request.user.troops.filter(number=troop_number).first()
 
 
 class OnlyTroopManagerMixin(AccessMixin):
     """Verify that the current user is allowed to manage the troop."""
 
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return self.handle_no_permission()
-
-        troop_number = kwargs.get("troop")
-        if not troop_number:
-            return self.handle_no_permission()
-
-        troop = request.user.troops.filter(number=troop_number).first()
+        troop = user_managed_troop(request, kwargs.get("troop"))
         if not troop:
             return self.handle_no_permission()
 
@@ -233,3 +240,60 @@ class NamiSearchView(OnlyTroopManagerMixin, generic.FormView):
         response = super().form_invalid(form)
         response.status_code = 422  # Unprocessable Entity
         return response
+
+
+def csv_participant_export(request, troop):
+    troop = user_managed_troop(request, troop)
+    if not troop:
+        raise PermissionDenied()
+
+    response = HttpResponse(content_type="text/csv")
+    response["Content-Disposition"] = 'attachment; filename="packmas13_{}.csv"'.format(
+        troop.number
+    )
+    writer = csv.writer(response)
+
+    fields = [
+        "first_name",
+        "last_name",
+        "gender",
+        "birthday",
+        "email",
+        "nami",
+        "age_section",
+        "is_leader",
+        "diet",
+        "medication",
+        "comment",
+        "attendance",
+    ]
+    attendance_days = [str(day.date) for day in Attendance.objects.all()]
+    fields.extend(attendance_days)
+
+    writer.writerow(fields)
+
+    for p in (
+        Participant.objects.filter(troop=troop.id)
+        .prefetch_related("diet", "attendance")
+        .all()
+    ):
+        writer.writerow(participant_row(fields, attendance_days, p))
+    return response
+
+
+def participant_row(fields, attendance_days, participant):
+    days = [str(day.date) for day in participant.attendance.all()]
+
+    for field in fields:
+        if field == "is_leader":
+            yield 1 if participant.is_leader else ""
+        elif field == "age_section":
+            yield section_trans(participant.age_section)
+        elif field == "diet":
+            yield " - ".join(diet.name for diet in participant.diet.all())
+        elif field == "attendance":
+            yield len(days)
+        elif field in attendance_days:
+            yield 1 if field in days else ""
+        else:
+            yield getattr(participant, field)

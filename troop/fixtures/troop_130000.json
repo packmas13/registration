@@ -28,6 +28,11 @@
     "fields": { "date": "2020-02-21" }
   },
   {
+    "model": "troop.diet",
+    "pk": 1,
+    "fields": { "name": "Vegan" }
+  },
+  {
     "model": "troop.troop",
     "pk": 1,
     "fields": {
@@ -67,7 +72,7 @@
       "created_at": "2020-02-27T10:46:40.366Z",
       "updated_at": "2020-02-27T11:02:24.884Z",
       "attendance": [1],
-      "diet": []
+      "diet": [1]
     }
   },
   {

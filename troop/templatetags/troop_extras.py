@@ -26,6 +26,6 @@ def section_color(value):
 @stringfilter
 def section_trans(value):
     for (v, trans) in Participant.SECTION_CHOICES:
-        if v == value:
+        if v == value or (not value and not v):
             return trans
     return value

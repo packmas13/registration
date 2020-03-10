@@ -24,4 +24,9 @@ urlpatterns = [
         views.NamiSearchView.as_view(),
         name="participant.nami-search",
     ),
+    path(
+        "<int:troop>/participant/export.csv",
+        views.csv_participant_export,
+        name="participant.export",
+    ),
 ]
