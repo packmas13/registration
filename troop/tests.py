@@ -18,19 +18,23 @@ class IndexTest(TestCase):
 
     def test_must_be_logged_in(self):
         self.client.logout()
-        response = self.client.get(reverse("troop:index", kwargs={"troop": 404}))
+        response = self.client.get(reverse("troop:index", kwargs={"troop_number": 404}))
         self.assertEqual(response.status_code, 302)
 
     def test_not_found(self):
-        response = self.client.get(reverse("troop:index", kwargs={"troop": 404}))
+        response = self.client.get(reverse("troop:index", kwargs={"troop_number": 404}))
         self.assertEqual(response.status_code, 403)
 
     def test_not_allowed(self):
-        response = self.client.get(reverse("troop:index", kwargs={"troop": 130100}))
+        response = self.client.get(
+            reverse("troop:index", kwargs={"troop_number": 130100})
+        )
         self.assertEqual(response.status_code, 403)
 
     def test_found(self):
-        response = self.client.get(reverse("troop:index", kwargs={"troop": 130000}))
+        response = self.client.get(
+            reverse("troop:index", kwargs={"troop_number": 130000})
+        )
         self.assertEqual(response.status_code, 200)
 
 
@@ -59,41 +63,42 @@ class CreateParticipantTest(TestCase):
 
     def test_get_form(self):
         response = self.client.get(
-            reverse("troop:participant.create", kwargs={"troop": 130000})
+            reverse("troop:participant.create", kwargs={"troop_number": 130000})
         )
         self.assertEqual(response.status_code, 200)
 
     def test_post_empty_form(self):
         response = self.client.post(
-            reverse("troop:participant.create", kwargs={"troop": 130000})
+            reverse("troop:participant.create", kwargs={"troop_number": 130000})
         )
         self.assertEqual(response.status_code, 422)
 
     def test_post_form(self):
         response = self.client.post(
-            reverse("troop:participant.create", kwargs={"troop": 130000}),
+            reverse("troop:participant.create", kwargs={"troop_number": 130000}),
             self.valid_data,
         )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(
-            response.url, reverse("troop:participant.index", kwargs={"troop": 130000})
+            response.url,
+            reverse("troop:participant.index", kwargs={"troop_number": 130000}),
         )
 
     def test_post_form_addanother(self):
         data = self.valid_data.copy()
         data["_addanother"] = "1"
         response = self.client.post(
-            reverse("troop:participant.create", kwargs={"troop": 130000}), data
+            reverse("troop:participant.create", kwargs={"troop_number": 130000}), data
         )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(
             response.url,
-            reverse("troop:participant.nami-search", kwargs={"troop": 130000}),
+            reverse("troop:participant.nami-search", kwargs={"troop_number": 130000}),
         )
 
     def test_get_form_prefilled(self):
         response = self.client.get(
-            reverse("troop:participant.create", kwargs={"troop": 130000}),
+            reverse("troop:participant.create", kwargs={"troop_number": 130000}),
             data={"first_name": "Trick"},
         )
         self.assertEqual(response.status_code, 200)
@@ -115,13 +120,13 @@ class NamiSearchTest(TestCase):
 
     def test_get_form(self):
         response = self.client.get(
-            reverse("troop:participant.nami-search", kwargs={"troop": 130000})
+            reverse("troop:participant.nami-search", kwargs={"troop_number": 130000})
         )
         self.assertEqual(response.status_code, 200)
 
     def test_post_empty_form(self):
         response = self.client.post(
-            reverse("troop:participant.nami-search", kwargs={"troop": 130000})
+            reverse("troop:participant.nami-search", kwargs={"troop_number": 130000})
         )
         self.assertEqual(response.status_code, 422)
 
@@ -136,13 +141,13 @@ class NamiSearchTest(TestCase):
         NamiSearchView.nami = self.mocked_nami_method
 
         response = self.client.post(
-            reverse("troop:participant.nami-search", kwargs={"troop": 130000}),
+            reverse("troop:participant.nami-search", kwargs={"troop_number": 130000}),
             {"nami": "12345"},
         )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(
             response.url,
-            reverse("troop:participant.create", kwargs={"troop": 130000})
+            reverse("troop:participant.create", kwargs={"troop_number": 130000})
             + "?last_name=Duck&first_name=Trick&nami=12345",
         )
         m = list(messages.get_messages(response.wsgi_request))
@@ -151,13 +156,13 @@ class NamiSearchTest(TestCase):
 
     def test_post_form_empty_nami_settings(self):
         response = self.client.post(
-            reverse("troop:participant.nami-search", kwargs={"troop": 130000}),
+            reverse("troop:participant.nami-search", kwargs={"troop_number": 130000}),
             {"nami": "12345"},
         )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(
             response.url,
-            reverse("troop:participant.create", kwargs={"troop": 130000})
+            reverse("troop:participant.create", kwargs={"troop_number": 130000})
             + "?nami=12345",
         )
         m = list(messages.get_messages(response.wsgi_request))
@@ -169,13 +174,13 @@ class NamiSearchTest(TestCase):
         NamiSearchView.nami = self.mocked_nami_method
 
         response = self.client.post(
-            reverse("troop:participant.nami-search", kwargs={"troop": 130000}),
+            reverse("troop:participant.nami-search", kwargs={"troop_number": 130000}),
             {"nami": "12345"},
         )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(
             response.url,
-            reverse("troop:participant.create", kwargs={"troop": 130000})
+            reverse("troop:participant.create", kwargs={"troop_number": 130000})
             + "?nami=12345",
         )
         m = list(messages.get_messages(response.wsgi_request))
@@ -184,13 +189,13 @@ class NamiSearchTest(TestCase):
 
     def test_post_form_already_in_db(self):
         response = self.client.post(
-            reverse("troop:participant.nami-search", kwargs={"troop": 130000}),
+            reverse("troop:participant.nami-search", kwargs={"troop_number": 130000}),
             {"nami": "130001"},
         )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(
             response.url,
-            reverse("troop:participant.edit", kwargs={"troop": 130000, "pk": 1}),
+            reverse("troop:participant.edit", kwargs={"troop_number": 130000, "pk": 1}),
         )
         m = list(messages.get_messages(response.wsgi_request))
         self.assertEqual(1, len(m))
@@ -198,7 +203,7 @@ class NamiSearchTest(TestCase):
 
     def test_post_form_already_in_db_wrong_troop(self):
         response = self.client.post(
-            reverse("troop:participant.nami-search", kwargs={"troop": 130000}),
+            reverse("troop:participant.nami-search", kwargs={"troop_number": 130000}),
             {"nami": "130002"},
         )
         self.assertEqual(response.status_code, 409)
@@ -216,24 +221,24 @@ class IndexParticipantTest(TestCase):
 
     def test_found(self):
         response = self.client.get(
-            reverse("troop:participant.index", kwargs={"troop": 130000})
+            reverse("troop:participant.index", kwargs={"troop_number": 130000})
         )
         self.assertEqual(response.status_code, 200)
 
     def test_contains_creations(self):
         response = self.client.get(
-            reverse("troop:participant.index", kwargs={"troop": 130000})
+            reverse("troop:participant.index", kwargs={"troop_number": 130000})
         )
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, "Trick")
 
         self.client.post(
-            reverse("troop:participant.create", kwargs={"troop": 130000}),
+            reverse("troop:participant.create", kwargs={"troop_number": 130000}),
             CreateParticipantTest.valid_data,
         )
 
         response = self.client.get(
-            reverse("troop:participant.index", kwargs={"troop": 130000})
+            reverse("troop:participant.index", kwargs={"troop_number": 130000})
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Trick")
@@ -248,7 +253,7 @@ class ParticipantExportTest(TestCase):
 
     def test_export(self):
         response = self.client.get(
-            reverse("troop:participant.export", kwargs={"troop": 130000})
+            reverse("troop:participant.export", kwargs={"troop_number": 130000})
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["content-type"], "text/csv")

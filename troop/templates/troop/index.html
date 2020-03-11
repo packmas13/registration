@@ -9,5 +9,5 @@
     Number of registrations, payments...
 </p>
 
-<a href="{% url "troop:participant.export" troop=request.troop.number %}" class="bg-gray-600 text-white px-4 py-1 cursor-pointer uppercase">{% trans "CSV Export of the participants" %}</a>
+<a href="{% url "troop:participant.export" troop_number=request.troop.number %}" class="bg-gray-600 text-white px-4 py-1 cursor-pointer uppercase">{% trans "CSV Export of the participants" %}</a>
 {% endblock %}

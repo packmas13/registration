@@ -45,7 +45,7 @@
     {% endwith %}
 
     <div class="text-center">
-        <a href="{% url "troop:participant.create" troop=request.troop.number %}" class="inline-block bg-gray-500 text-white px-4 py-1 cursor-pointer uppercase">
+        <a href="{% url "troop:participant.create" troop_number=request.troop.number %}" class="inline-block bg-gray-500 text-white px-4 py-1 cursor-pointer uppercase">
             {% trans "Skip" %}
         </a>
         <button type="submit" class="bg-green-600 text-white px-4 py-1 cursor-pointer uppercase">

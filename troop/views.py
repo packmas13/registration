@@ -18,26 +18,23 @@ from .templatetags.troop_extras import section_trans
 from nami import Nami, MemberNotFound
 
 
-def user_managed_troop(request, troop_number):
-    if not request.user.is_authenticated:
+def user_managed_troop(user, troop_number):
+    if not user.is_authenticated or not troop_number:
         return None
 
-    if not troop_number:
-        return None
-
-    return request.user.troops.filter(number=troop_number).first()
+    return user.troops.filter(number=troop_number).first()
 
 
 class OnlyTroopManagerMixin(AccessMixin):
     """Verify that the current user is allowed to manage the troop."""
 
-    def dispatch(self, request, *args, **kwargs):
-        troop = user_managed_troop(request, kwargs.get("troop"))
+    def dispatch(self, request, troop_number=None, *args, **kwargs):
+        troop = user_managed_troop(request.user, troop_number)
         if not troop:
             return self.handle_no_permission()
 
         setattr(request, "troop", troop)
-        return super().dispatch(request, *args, **kwargs)
+        return super().dispatch(request, troop_number=troop_number, *args, **kwargs)
 
 
 class IndexView(OnlyTroopManagerMixin, generic.TemplateView):
@@ -125,7 +122,7 @@ class CreateParticipantView(OnlyTroopManagerMixin, generic.CreateView):
     def get_success_url(self):
         messages.add_message(self.request, messages.SUCCESS, _("participant.saved"))
 
-        kwargs = {"troop": self.request.troop.number}
+        kwargs = {"troop_number": self.request.troop.number}
         if self.request.POST.get("_addanother"):
             return reverse("troop:participant.nami-search", kwargs=kwargs)
         return reverse("troop:participant.index", kwargs=kwargs)
@@ -161,7 +158,7 @@ class NamiSearchView(OnlyTroopManagerMixin, generic.FormView):
         )
 
     def form_valid(self, form):
-        kwargs = {"troop": self.request.troop.number}
+        kwargs = {"troop_number": self.request.troop.number}
         data = {"nami": form.cleaned_data["nami"]}
 
         p = None
@@ -228,7 +225,7 @@ class NamiSearchView(OnlyTroopManagerMixin, generic.FormView):
 
         self.success_url = reverse(
             "troop:participant.edit",
-            kwargs={"troop": self.request.troop.number, "pk": participant.id},
+            kwargs={"troop_number": self.request.troop.number, "pk": participant.id},
         )
         return super().form_valid(form)
 
@@ -242,8 +239,8 @@ class NamiSearchView(OnlyTroopManagerMixin, generic.FormView):
         return response
 
 
-def csv_participant_export(request, troop):
-    troop = user_managed_troop(request, troop)
+def csv_participant_export(request, troop_number):
+    troop = user_managed_troop(request.user, troop_number)
     if not troop:
         raise PermissionDenied()
 
