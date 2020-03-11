@@ -265,3 +265,4 @@ class ParticipantExportTest(TestCase):
         self.assertContains(response, "Nach")
         self.assertContains(response, "no section")
         self.assertContains(response, "2020-02-20")
+        self.assertContains(response, "Vegan")
