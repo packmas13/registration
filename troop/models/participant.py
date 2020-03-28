@@ -47,7 +47,7 @@ class Participant(models.Model):
     SECTION_ROVER = "rover"
 
     SECTION_CHOICES = (
-        (None, _("no section")),
+        ("", _("no section")),
         (SECTION_BEAVER, _("beaver")),
         (SECTION_CUB, _("cub")),
         (SECTION_SCOUT, _("scout")),
@@ -119,10 +119,6 @@ class Participant(models.Model):
                 for pos, (value, _) in enumerate(cls.SECTION_CHOICES)
             ]
         )
-
-    def get_age_section_display(self):
-        # "" must be cast to None before getting the SECTION_CHOICE
-        return dict(self.SECTION_CHOICES).get(self.age_section or None)
 
     def __str__(self):
         return "{} {} ({})".format(
