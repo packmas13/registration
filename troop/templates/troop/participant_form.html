@@ -48,7 +48,7 @@
                 {% trans "Save and add another" %}
             </button>
         {% else %}
-            <a href="{% url "troop:participant.index" troop=request.troop.number %}" class="inline-block bg-gray-500 text-white px-4 py-1 cursor-pointer uppercase">
+            <a href="{% url "troop:participant.index" troop_number=request.troop.number %}" class="inline-block bg-gray-500 text-white px-4 py-1 cursor-pointer uppercase">
                 {% trans "Close" %}
             </a>
         {% endif %}

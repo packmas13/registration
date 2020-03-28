@@ -3,15 +3,15 @@
 {% for troop in request.user.troops.all %}
     <h3 class="uppercase text-sm text-gray-800 mt-6">{{ troop.name }}</h3>
     <div class="my-2">
-        {% url 'troop:index' troop=troop.number as href %}
+        {% url 'troop:index' troop_number=troop.number as href %}
         {% include 'registration/_base/navigation_link.html' with href=href text="Übersicht" %}
         <!-- dates, number of registrations, prices...-->
 
-        {% url 'troop:participant.nami-search' troop=troop.number as href %}
+        {% url 'troop:participant.nami-search' troop_number=troop.number as href %}
         {% include 'registration/_base/navigation_link.html' with href=href text="Neue Anmeldung" %}
         <!-- NaMi import, manual import-->
 
-        {% url 'troop:participant.index' troop=troop.number as href %}
+        {% url 'troop:participant.index' troop_number=troop.number as href %}
         {% include 'registration/_base/navigation_link.html' with href=href text="Aktuelle Anmeldungen" %}
         <!-- List to view & edit-->
     </div>

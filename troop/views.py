@@ -5,10 +5,12 @@ from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
 from django.db.models import Count
 from django.conf import settings
+from django.http import HttpResponse
 
 from urllib.parse import urlencode
+import csv
 
-from .models import Participant
+from .models import Participant, Attendance, Troop
 from .forms import CreateParticipantForm, NamiSearchForm
 
 from nami import Nami, MemberNotFound
@@ -17,20 +19,13 @@ from nami import Nami, MemberNotFound
 class OnlyTroopManagerMixin(AccessMixin):
     """Verify that the current user is allowed to manage the troop."""
 
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return self.handle_no_permission()
-
-        troop_number = kwargs.get("troop")
-        if not troop_number:
-            return self.handle_no_permission()
-
-        troop = request.user.troops.filter(number=troop_number).first()
+    def dispatch(self, request, troop_number=None, *args, **kwargs):
+        troop = Troop.managed_by_user(request.user, troop_number)
         if not troop:
             return self.handle_no_permission()
 
         setattr(request, "troop", troop)
-        return super().dispatch(request, *args, **kwargs)
+        return super().dispatch(request, troop_number=troop_number, *args, **kwargs)
 
 
 class IndexView(OnlyTroopManagerMixin, generic.TemplateView):
@@ -73,7 +68,7 @@ class UpdateParticipantView(OnlyTroopManagerMixin, generic.UpdateView):
 
     def get_success_url(self):
         messages.add_message(self.request, messages.SUCCESS, _("participant.saved"))
-        kwargs = {"troop": self.request.troop.number}
+        kwargs = {"troop_number": self.request.troop.number}
         return reverse("troop:participant.index", kwargs=kwargs)
 
     def form_invalid(self, form):
@@ -118,7 +113,7 @@ class CreateParticipantView(OnlyTroopManagerMixin, generic.CreateView):
     def get_success_url(self):
         messages.add_message(self.request, messages.SUCCESS, _("participant.saved"))
 
-        kwargs = {"troop": self.request.troop.number}
+        kwargs = {"troop_number": self.request.troop.number}
         if self.request.POST.get("_addanother"):
             return reverse("troop:participant.nami-search", kwargs=kwargs)
         return reverse("troop:participant.index", kwargs=kwargs)
@@ -154,16 +149,14 @@ class NamiSearchView(OnlyTroopManagerMixin, generic.FormView):
         )
 
     def form_valid(self, form):
-        kwargs = {"troop": self.request.troop.number}
+        kwargs = {"troop_number": self.request.troop.number}
         data = {"nami": form.cleaned_data["nami"]}
 
-        p = None
         try:
             p = Participant.objects.filter(**data).get()
         except Participant.DoesNotExist:
             pass
-
-        if p:
+        else:
             return self._redirect_to_participant(p, form)
 
         try:
@@ -221,7 +214,7 @@ class NamiSearchView(OnlyTroopManagerMixin, generic.FormView):
 
         self.success_url = reverse(
             "troop:participant.edit",
-            kwargs={"troop": self.request.troop.number, "pk": participant.id},
+            kwargs={"troop_number": self.request.troop.number, "pk": participant.id},
         )
         return super().form_valid(form)
 
@@ -233,3 +226,57 @@ class NamiSearchView(OnlyTroopManagerMixin, generic.FormView):
         response = super().form_invalid(form)
         response.status_code = 422  # Unprocessable Entity
         return response
+
+
+class CsvParticipantExport(OnlyTroopManagerMixin, generic.View):
+    def get(self, request, troop_number):
+        response = HttpResponse(content_type="text/csv")
+        response[
+            "Content-Disposition"
+        ] = 'attachment; filename="packmas13_{}.csv"'.format(request.troop.number)
+        writer = csv.writer(response)
+
+        fields = [
+            "first_name",
+            "last_name",
+            "gender",
+            "birthday",
+            "email",
+            "nami",
+            "age_section",
+            "is_leader",
+            "diet",
+            "medication",
+            "comment",
+            "attendance",
+        ]
+        attendance_days = [str(day.date) for day in Attendance.objects.all()]
+        fields.extend(attendance_days)
+
+        writer.writerow(fields)
+
+        for p in (
+            Participant.objects.filter(troop=request.troop.id)
+            .prefetch_related("diet", "attendance")
+            .all()
+        ):
+            writer.writerow(self.participant_row(fields, attendance_days, p))
+        return response
+
+    @staticmethod
+    def participant_row(fields, attendance_days, participant):
+        days = [str(day.date) for day in participant.attendance.all()]
+
+        for field in fields:
+            if field == "is_leader":
+                yield 1 if participant.is_leader else ""
+            elif field == "age_section":
+                yield participant.get_age_section_display()
+            elif field == "diet":
+                yield " - ".join(diet.name for diet in participant.diet.all())
+            elif field == "attendance":
+                yield len(days)
+            elif field in attendance_days:
+                yield 1 if field in days else ""
+            else:
+                yield getattr(participant, field)

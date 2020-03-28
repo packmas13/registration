@@ -25,5 +25,12 @@ class Troop(models.Model):
         else:
             return models.Q(id__in=user.troops.all())
 
+    @staticmethod
+    def managed_by_user(user, troop_number):
+        if not user.is_authenticated or not troop_number:
+            return None
+
+        return user.troops.filter(number=troop_number).first()
+
     def __str__(self):
         return "{} {}".format(self.number, self.name)

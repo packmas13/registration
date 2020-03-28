@@ -20,12 +20,3 @@ def section_color(value):
     elif value == Participant.SECTION_ROVER:
         return "red-600"
     return "purple-600"
-
-
-@register.filter
-@stringfilter
-def section_trans(value):
-    for (v, trans) in Participant.SECTION_CHOICES:
-        if v == value:
-            return trans
-    return value

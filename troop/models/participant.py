@@ -47,7 +47,7 @@ class Participant(models.Model):
     SECTION_ROVER = "rover"
 
     SECTION_CHOICES = (
-        (None, _("no section")),
+        ("", _("no section")),
         (SECTION_BEAVER, _("beaver")),
         (SECTION_CUB, _("cub")),
         (SECTION_SCOUT, _("scout")),

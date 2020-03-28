@@ -24,12 +24,12 @@
 		{% for section in sections %}
 			{% with section.grouper|section_color as color %}
 			{% for participant in section.list %}
-				<a class="table-row {% cycle 'bg-gray-100' 'bg-gray-200' 'bg-gray-100' %} hover:bg-green-200" href="{% url "troop:participant.edit"  troop=request.troop.number pk=participant.pk %}">
+				<a class="table-row {% cycle 'bg-gray-100' 'bg-gray-200' 'bg-gray-100' %} hover:bg-green-200" href="{% url "troop:participant.edit"  troop_number=request.troop.number pk=participant.pk %}">
 					<span class="table-cell p-2 border-{{color}} border-l-4 {% if forloop.first %}rounded-tl{% endif %} {% if forloop.last %}rounded-bl{% endif %}">
 						{% if not participant.age_section %}
-							<em>{% trans "no section" %}</em>
+							<em>{{ participant.get_age_section_display }}</em>
 						{% else %}
-							{{ participant.age_section|section_trans }}
+							{{ participant.get_age_section_display }}
 						{% endif %}
 						{% if participant.is_leader %}- {% trans "Leader" %}{% endif %}
 					</span>
@@ -46,6 +46,7 @@
 {% endif %}
 
 <div class="mt-2">
-	<a href="{% url "troop:participant.nami-search" troop=request.troop.number %}" class="bg-green-600 text-white px-4 py-1 cursor-pointer uppercase">{% trans "Neue Anmeldung" %}</a>
+	<a href="{% url "troop:participant.nami-search" troop_number=request.troop.number %}" class="bg-green-600 text-white px-4 py-1 cursor-pointer uppercase">{% trans "Neue Anmeldung" %}</a>
+	<a href="{% url "troop:participant.export" troop_number=request.troop.number %}" class="bg-gray-600 text-white px-4 py-1 cursor-pointer uppercase">{% trans "CSV Export" %}</a>
 </div>
 {% endblock %}
