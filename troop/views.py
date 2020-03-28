@@ -160,13 +160,11 @@ class NamiSearchView(OnlyTroopManagerMixin, generic.FormView):
         kwargs = {"troop_number": self.request.troop.number}
         data = {"nami": form.cleaned_data["nami"]}
 
-        p = None
         try:
             p = Participant.objects.filter(**data).get()
         except Participant.DoesNotExist:
             pass
-
-        if p:
+        else:
             return self._redirect_to_participant(p, form)
 
         try:
