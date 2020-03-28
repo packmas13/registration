@@ -120,6 +120,10 @@ class Participant(models.Model):
             ]
         )
 
+    def get_age_section_display(self):
+        # "" must be cast to None before getting the SECTION_CHOICE
+        return dict(self.SECTION_CHOICES).get(self.age_section or None)
+
     def __str__(self):
         return "{} {} ({})".format(
             self.first_name, self.last_name, localize(self.birthday)

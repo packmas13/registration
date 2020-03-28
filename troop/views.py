@@ -13,7 +13,6 @@ import csv
 
 from .models import Participant, Attendance
 from .forms import CreateParticipantForm, NamiSearchForm
-from .templatetags.troop_extras import section_trans
 
 from nami import Nami, MemberNotFound
 
@@ -285,7 +284,7 @@ def participant_row(fields, attendance_days, participant):
         if field == "is_leader":
             yield 1 if participant.is_leader else ""
         elif field == "age_section":
-            yield section_trans(participant.age_section)
+            yield participant.get_age_section_display()
         elif field == "diet":
             yield " - ".join(diet.name for diet in participant.diet.all())
         elif field == "attendance":
