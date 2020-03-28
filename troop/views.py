@@ -11,24 +11,17 @@ from django.http import HttpResponse
 from urllib.parse import urlencode
 import csv
 
-from .models import Participant, Attendance
+from .models import Participant, Attendance, Troop
 from .forms import CreateParticipantForm, NamiSearchForm
 
 from nami import Nami, MemberNotFound
-
-
-def user_managed_troop(user, troop_number):
-    if not user.is_authenticated or not troop_number:
-        return None
-
-    return user.troops.filter(number=troop_number).first()
 
 
 class OnlyTroopManagerMixin(AccessMixin):
     """Verify that the current user is allowed to manage the troop."""
 
     def dispatch(self, request, troop_number=None, *args, **kwargs):
-        troop = user_managed_troop(request.user, troop_number)
+        troop = Troop.managed_by_user(request.user, troop_number)
         if not troop:
             return self.handle_no_permission()
 
@@ -237,7 +230,7 @@ class NamiSearchView(OnlyTroopManagerMixin, generic.FormView):
 
 
 def csv_participant_export(request, troop_number):
-    troop = user_managed_troop(request.user, troop_number)
+    troop = Troop.managed_by_user(request.user, troop_number)
     if not troop:
         raise PermissionDenied()
 
