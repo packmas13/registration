@@ -5,7 +5,6 @@ from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
 from django.db.models import Count
 from django.conf import settings
-from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 
 from urllib.parse import urlencode
