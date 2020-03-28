@@ -26,7 +26,7 @@ urlpatterns = [
     ),
     path(
         "<int:troop_number>/participant/export.csv",
-        views.csv_participant_export,
+        views.CsvParticipantExport.as_view(),
         name="participant.export",
     ),
 ]

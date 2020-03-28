@@ -229,58 +229,55 @@ class NamiSearchView(OnlyTroopManagerMixin, generic.FormView):
         return response
 
 
-def csv_participant_export(request, troop_number):
-    troop = Troop.managed_by_user(request.user, troop_number)
-    if not troop:
-        raise PermissionDenied()
+class CsvParticipantExport(OnlyTroopManagerMixin, generic.View):
+    def get(self, request, troop_number):
+        response = HttpResponse(content_type="text/csv")
+        response["Content-Disposition"] = 'attachment; filename="packmas13_{}.csv"'.format(
+            request.troop.number
+        )
+        writer = csv.writer(response)
 
-    response = HttpResponse(content_type="text/csv")
-    response["Content-Disposition"] = 'attachment; filename="packmas13_{}.csv"'.format(
-        troop.number
-    )
-    writer = csv.writer(response)
+        fields = [
+            "first_name",
+            "last_name",
+            "gender",
+            "birthday",
+            "email",
+            "nami",
+            "age_section",
+            "is_leader",
+            "diet",
+            "medication",
+            "comment",
+            "attendance",
+        ]
+        attendance_days = [str(day.date) for day in Attendance.objects.all()]
+        fields.extend(attendance_days)
 
-    fields = [
-        "first_name",
-        "last_name",
-        "gender",
-        "birthday",
-        "email",
-        "nami",
-        "age_section",
-        "is_leader",
-        "diet",
-        "medication",
-        "comment",
-        "attendance",
-    ]
-    attendance_days = [str(day.date) for day in Attendance.objects.all()]
-    fields.extend(attendance_days)
+        writer.writerow(fields)
 
-    writer.writerow(fields)
+        for p in (
+            Participant.objects.filter(troop=request.troop.id)
+            .prefetch_related("diet", "attendance")
+            .all()
+        ):
+            writer.writerow(self.participant_row(fields, attendance_days, p))
+        return response
 
-    for p in (
-        Participant.objects.filter(troop=troop.id)
-        .prefetch_related("diet", "attendance")
-        .all()
-    ):
-        writer.writerow(participant_row(fields, attendance_days, p))
-    return response
+    @staticmethod
+    def participant_row(fields, attendance_days, participant):
+        days = [str(day.date) for day in participant.attendance.all()]
 
-
-def participant_row(fields, attendance_days, participant):
-    days = [str(day.date) for day in participant.attendance.all()]
-
-    for field in fields:
-        if field == "is_leader":
-            yield 1 if participant.is_leader else ""
-        elif field == "age_section":
-            yield participant.get_age_section_display()
-        elif field == "diet":
-            yield " - ".join(diet.name for diet in participant.diet.all())
-        elif field == "attendance":
-            yield len(days)
-        elif field in attendance_days:
-            yield 1 if field in days else ""
-        else:
-            yield getattr(participant, field)
+        for field in fields:
+            if field == "is_leader":
+                yield 1 if participant.is_leader else ""
+            elif field == "age_section":
+                yield participant.get_age_section_display()
+            elif field == "diet":
+                yield " - ".join(diet.name for diet in participant.diet.all())
+            elif field == "attendance":
+                yield len(days)
+            elif field in attendance_days:
+                yield 1 if field in days else ""
+            else:
+                yield getattr(participant, field)
