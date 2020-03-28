@@ -69,7 +69,7 @@ class UpdateParticipantView(OnlyTroopManagerMixin, generic.UpdateView):
 
     def get_success_url(self):
         messages.add_message(self.request, messages.SUCCESS, _("participant.saved"))
-        kwargs = {"troop": self.request.troop.number}
+        kwargs = {"troop_number": self.request.troop.number}
         return reverse("troop:participant.index", kwargs=kwargs)
 
     def form_invalid(self, form):
@@ -232,9 +232,9 @@ class NamiSearchView(OnlyTroopManagerMixin, generic.FormView):
 class CsvParticipantExport(OnlyTroopManagerMixin, generic.View):
     def get(self, request, troop_number):
         response = HttpResponse(content_type="text/csv")
-        response["Content-Disposition"] = 'attachment; filename="packmas13_{}.csv"'.format(
-            request.troop.number
-        )
+        response[
+            "Content-Disposition"
+        ] = 'attachment; filename="packmas13_{}.csv"'.format(request.troop.number)
         writer = csv.writer(response)
 
         fields = [

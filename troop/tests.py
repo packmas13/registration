@@ -105,6 +105,45 @@ class CreateParticipantTest(TestCase):
         self.assertContains(response, 'value="Trick"')
 
 
+class UpdateParticipantTest(TestCase):
+    fixtures = ["troop_130000.json"]
+
+    url = reverse("troop:participant.edit", kwargs={"troop_number": 130000, "pk": 1})
+
+    def setUp(self):
+        self.user = get_user_model().objects.get(email="user@test")
+        self.client.force_login(self.user)
+
+    def test_get_form(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_post_empty_form(self):
+        response = self.client.post(self.url)
+        self.assertEqual(response.status_code, 422)
+
+    def test_post_form(self):
+        response = self.client.post(
+            self.url,
+            {
+                "troop": "1",
+                "first_name": "Track",  # new name
+                "last_name": "Duck",
+                "gender": "male",
+                "birthday": "1.1.1900",
+                "nami": "12",
+                "age_section": "",  # new section (empty)
+                "attendance": [1],
+            },
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(
+            response.url,
+            reverse("troop:participant.index", kwargs={"troop_number": 130000}),
+        )
+
+
 class NamiSearchTest(TestCase):
     fixtures = ["troop_130000.json"]
 
