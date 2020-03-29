@@ -57,9 +57,9 @@ class Participant(models.Model):
 
     troop = models.ForeignKey(Troop, verbose_name=_("troop"), on_delete=models.CASCADE,)
 
-    first_name = models.CharField(_("first_name"), max_length=128,)
+    first_name = models.CharField(_("first name"), max_length=128,)
 
-    last_name = models.CharField(_("last_name"), max_length=128,)
+    last_name = models.CharField(_("last name"), max_length=128,)
 
     gender = models.CharField(_("gender"), max_length=16, choices=GENDER_CHOICES,)
 
