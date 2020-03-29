@@ -39,7 +39,7 @@ lintcheck:
 	# The GitHub editor is 127 chars wide.
 	pipenv run flake8 . --count --exit-zero --ignore=E231,E203,W503 --per-file-ignores='__init__.py:F401' --max-complexity=10 --max-line-length=127 --statistics --exclude migrations,__pycache__
 
-MESSAGESDIRS = participant payment # Space separated modules with a translation
+MESSAGESDIRS = account management payment registration troop # Space separated modules with a translation
 
 messages: $(MESSAGESDIRS) ## Update the translation files
 
