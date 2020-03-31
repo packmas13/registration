@@ -20,11 +20,10 @@ var chart = new Chart(ctx, {
     type: 'pie',
 
     data: {
-        labels: [{% for k, v in participant_distribution %} '{{ k }}', {% endfor %}],
+        labels: [{% for k, c, v in participant_distribution %} '{{ k }}', {% endfor %}],
         datasets: [{
-            label: 'My First dataset',
-            data: [{% for k, v in participant_distribution %} '{{ v }}', {% endfor %}],
-            backgroundColor: ['#805ad5', '#718096', '#dd6b20', '#3182ce', '#38a169', '#e53e3e'],
+            data: [{% for k, c, v in participant_distribution %} '{{ v }}', {% endfor %}],
+            backgroundColor: [{% for k, c, v in participant_distribution %} '{{ c }}', {% endfor %}],
         }]
     },
 

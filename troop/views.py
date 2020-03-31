@@ -13,6 +13,7 @@ import csv
 
 from .models import Participant, Attendance, Troop
 from .forms import CreateParticipantForm, NamiSearchForm, SendEmailForm
+from .templatetags import troop_extras
 
 from nami import Nami, MemberNotFound
 
@@ -34,6 +35,7 @@ class IndexView(OnlyTroopManagerMixin, generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
         participant_distribution = (
             self.request.troop.participant_set.all()
             .values("age_section")
@@ -47,11 +49,16 @@ class IndexView(OnlyTroopManagerMixin, generic.TemplateView):
             "cub": _("Cubs"),
             "scout": _("Scouts"),
             "venturer": _("Venturers"),
-            "rover": _("Rover"),
+            "rover": _("Rovers"),
         }
 
         participant_distribution = [
-            (sections[x["age_section"]], x["total"]) for x in participant_distribution
+            (
+                sections[x["age_section"]],
+                troop_extras.section_color_hex(x["age_section"]),
+                x["total"],
+            )
+            for x in participant_distribution
         ]
 
         context["participant_distribution"] = participant_distribution
