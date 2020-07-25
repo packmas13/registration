@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.contrib import messages
+from django.utils.translation import gettext_lazy as _
 
 from nami import Nami, MemberNotFound
 from nami.mock import Session as NamiMock
@@ -302,6 +303,6 @@ class ParticipantExportTest(TestCase):
         )
         self.assertContains(response, "Vor")
         self.assertContains(response, "Nach")
-        self.assertContains(response, "no section")
+        self.assertContains(response, _("no section"))
         self.assertContains(response, "2020-02-20")
         self.assertContains(response, "Vegan")
