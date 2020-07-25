@@ -5,7 +5,7 @@ verify_ssl = true
 
 [dev-packages]
 black = "==19.10b0"
-flake8 = "~=3.0"
+flake8 = "~=3.8"
 
 [packages]
 Django = "==3.0.6"
