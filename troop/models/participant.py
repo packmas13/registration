@@ -117,7 +117,8 @@ class Participant(models.Model):
             *[
                 models.When(age_section=value, then=pos)
                 for pos, (value, _) in enumerate(cls.SECTION_CHOICES)
-            ]
+            ],
+            output_field=models.CharField(),
         )
 
     def __str__(self):
