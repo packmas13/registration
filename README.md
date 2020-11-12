@@ -1,3 +1,9 @@
+# This repository has been archived, since the event has been cancelled
+
+You might still find some interesting code there (especially regarding a NAMI-Verbindung).
+
+---
+
 # Setup
 
 1. Make sure you have Python 3.7+ and [pipenv](https://github.com/pypa/pipenv) installed
