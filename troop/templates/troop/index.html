@@ -1,13 +1,35 @@
 {% extends "registration/base.html" %}
+{% load static %}
 {% load i18n %}
 
 {% block content_title %}{{ request.troop.name}}{% endblock %}
 
 {% block content %}
-<p class="mb-6">
-    # TODO<br>
-    Number of registrations, payments...
-</p>
+
+<div class="flex mb-4">
+    <div class="w-1/2">
+        <canvas id="participant-distribution"></canvas>
+    </div>
+    <div class="w-1/2"></div>
+</div>
+
+<script src="{% static "registration/js/chart.bundle.min.js" %}"></script>
+<script>
+var ctx = document.getElementById('participant-distribution').getContext('2d');
+var chart = new Chart(ctx, {
+    type: 'pie',
+
+    data: {
+        labels: [{% for k, c, v in participant_distribution %} '{{ k }}', {% endfor %}],
+        datasets: [{
+            data: [{% for k, c, v in participant_distribution %} '{{ v }}', {% endfor %}],
+            backgroundColor: [{% for k, c, v in participant_distribution %} '{{ c }}', {% endfor %}],
+        }]
+    },
+
+    options: {}
+});
+</script>
 
 <a href="{% url "troop:participant.export" troop_number=request.troop.number %}" class="bg-gray-600 text-white px-4 py-1 cursor-pointer uppercase">{% trans "CSV Export of the participants" %}</a>
 {% endblock %}
