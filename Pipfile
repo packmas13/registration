@@ -8,7 +8,7 @@ black = "==19.10b0"
 flake8 = "~=3.8"
 
 [packages]
-Django = "==3.1.1"
+Django = "==3.2.5"
 django-widget-tweaks = "~=1.4"
 requests = "~=2.24"
 atomicwrites = "~=1.4"
